@@ -12,7 +12,7 @@ import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 
 public class Config {
 	public static class ConfigData {
@@ -47,59 +47,59 @@ public class Config {
 	}
 
 	public static Screen create(Screen parent) { 
-		ConfigBuilder builder = ConfigBuilder.create().setParentScreen(parent).setTitle(Component.literal("Transformable Items"));
+		ConfigBuilder builder = ConfigBuilder.create().setParentScreen(parent).setTitle(new TextComponent("Transformable Items"));
 		builder.setSavingRunnable(Config::save);
-		ConfigCategory config = builder.getOrCreateCategory(Component.literal("Configuration"));
+		ConfigCategory config = builder.getOrCreateCategory(new TextComponent("Configuration"));
 		
 		ConfigEntryBuilder entryBuilder = builder.entryBuilder();
-		config.addEntry(entryBuilder.startIntSlider(Component.literal("X Size"), (int)(configData.xScale * 100), 10, 200)
+		config.addEntry(entryBuilder.startIntSlider(new TextComponent("X Size"), (int)(configData.xScale * 100), 10, 200)
 			.setDefaultValue(100)
-			.setTextGetter(value -> Component.literal(String.format("%.2f", value / 100f)))
+			.setTextGetter(value -> new TextComponent(String.format("%.2f", value / 100f)))
 			.setSaveConsumer(value -> configData.xScale = value / 100f)
 			.build());
 
-		config.addEntry(entryBuilder.startIntSlider(Component.literal("Y Size"), (int)(configData.yScale * 100), 10, 200)
+		config.addEntry(entryBuilder.startIntSlider(new TextComponent("Y Size"), (int)(configData.yScale * 100), 10, 200)
 			.setDefaultValue(100)
-			.setTextGetter(value -> Component.literal(String.format("%.2f", value / 100f)))
+			.setTextGetter(value -> new TextComponent(String.format("%.2f", value / 100f)))
 			.setSaveConsumer(value -> configData.yScale = value / 100f)
 			.build());
 
-		config.addEntry(entryBuilder.startIntSlider(Component.literal("Z Size"), (int)(configData.zScale * 100), 10, 200)
+		config.addEntry(entryBuilder.startIntSlider(new TextComponent("Z Size"), (int)(configData.zScale * 100), 10, 200)
 			.setDefaultValue(100)
-			.setTextGetter(value -> Component.literal(String.format("%.2f", value / 100f)))
+			.setTextGetter(value -> new TextComponent(String.format("%.2f", value / 100f)))
 			.setSaveConsumer(value -> configData.zScale = value / 100f)
 			.build());
 
-		config.addEntry(entryBuilder.startIntSlider(Component.literal("X Offset"), (int)(configData.xOffset * 100), -100, 100)
+		config.addEntry(entryBuilder.startIntSlider(new TextComponent("X Offset"), (int)(configData.xOffset * 100), -100, 100)
 			.setDefaultValue(0)
-			.setTextGetter(value -> Component.literal(String.format("%.2f", value / 100f)))
+			.setTextGetter(value -> new TextComponent(String.format("%.2f", value / 100f)))
 			.setSaveConsumer(value -> configData.xOffset = value / 100f)
 			.build());
 
-		config.addEntry(entryBuilder.startIntSlider(Component.literal("Y Offset"), (int)(configData.yOffset * 100), -100, 100)
+		config.addEntry(entryBuilder.startIntSlider(new TextComponent("Y Offset"), (int)(configData.yOffset * 100), -100, 100)
 			.setDefaultValue(0)
-			.setTextGetter(value -> Component.literal(String.format("%.2f", value / 100f)))
+			.setTextGetter(value -> new TextComponent(String.format("%.2f", value / 100f)))
 			.setSaveConsumer(value -> configData.yOffset = value / 100f)
 			.build());
 
-		config.addEntry(entryBuilder.startIntSlider(Component.literal("Z Offset"), (int)(configData.zOffset * 100), -100, 100)
+		config.addEntry(entryBuilder.startIntSlider(new TextComponent("Z Offset"), (int)(configData.zOffset * 100), -100, 100)
 			.setDefaultValue(0)
-			.setTextGetter(value -> Component.literal(String.format("%.2f", value / 100f)))
+			.setTextGetter(value -> new TextComponent(String.format("%.2f", value / 100f)))
 			.setSaveConsumer(value -> configData.zOffset = value / 100f)
 			.build());
 
-		config.addEntry(entryBuilder.startBooleanToggle(Component.literal("Item Height Animations"), configData.itemHeightAnimation)
+		config.addEntry(entryBuilder.startBooleanToggle(new TextComponent("Item Height Animations"), configData.itemHeightAnimation)
 			.setDefaultValue(true)
 			.build());
 
 		return builder.build();
 
 		/*return YetAnotherConfigLib.createBuilder()
-		.title(Component.literal("Transformable Items"))
+		.title(new TextComponent("Transformable Items"))
 		.category(ConfigCategory.createBuilder()
-			.name(Component.literal("Configuration"))
+			.name(new TextComponent("Configuration"))
 			.option(Option.<Float>createBuilder()
-				.name(Component.literal("X Scale"))
+				.name(new TextComponent("X Scale"))
 				.binding(
 					1f,
 					() -> configData.xScale,
@@ -109,12 +109,12 @@ public class Config {
 					FloatSliderControllerBuilder.create(opt)
 						.range(0.1f, 2f)
 						.step(0.01f)
-						.formatValue(v -> Component.literal(String.format("%.2f", v)))
+						.formatValue(v -> new TextComponent(String.format("%.2f", v)))
 				)
 				.build())
 
 			.option(Option.<Float>createBuilder()
-				.name(Component.literal("Y Scale"))
+				.name(new TextComponent("Y Scale"))
 				.binding(
 					1f,
 					() -> configData.yScale,
@@ -124,12 +124,12 @@ public class Config {
 					FloatSliderControllerBuilder.create(opt)
 						.range(0.1f, 2f)
 						.step(0.01f)
-						.formatValue(v -> Component.literal(String.format("%.2f", v)))
+						.formatValue(v -> new TextComponent(String.format("%.2f", v)))
 				)
 				.build())
 			
 			.option(Option.<Float>createBuilder()
-				.name(Component.literal("Z Scale"))
+				.name(new TextComponent("Z Scale"))
 				.binding(
 					1f,
 					() -> configData.zScale,
@@ -139,12 +139,12 @@ public class Config {
 					FloatSliderControllerBuilder.create(opt)
 						.range(0.1f, 2f)
 						.step(0.01f)
-						.formatValue(v -> Component.literal(String.format("%.2f", v)))
+						.formatValue(v -> new TextComponent(String.format("%.2f", v)))
 				)
 				.build())
 
 			.option(Option.<Float>createBuilder()
-				.name(Component.literal("X Offset"))
+				.name(new TextComponent("X Offset"))
 				.binding(
 					0f,
 					() -> configData.xOffset,
@@ -154,12 +154,12 @@ public class Config {
 					FloatSliderControllerBuilder.create(opt)
 						.range(-1f, 1f)
 						.step(0.01f)
-						.formatValue(v -> Component.literal(String.format("%.2f", v)))
+						.formatValue(v -> new TextComponent(String.format("%.2f", v)))
 				)
 				.build())
 
 			.option(Option.<Float>createBuilder()
-				.name(Component.literal("Y Offset"))
+				.name(new TextComponent("Y Offset"))
 				.binding(
 					0f,
 					() -> configData.yOffset,
@@ -169,12 +169,12 @@ public class Config {
 					FloatSliderControllerBuilder.create(opt)
 						.range(-1f, 1f)
 						.step(0.01f)
-						.formatValue(v -> Component.literal(String.format("%.2f", v)))
+						.formatValue(v -> new TextComponent(String.format("%.2f", v)))
 				)
 				.build())
 			
 			.option(Option.<Float>createBuilder()
-				.name(Component.literal("Z Offset"))
+				.name(new TextComponent("Z Offset"))
 				.binding(
 					0f,
 					() -> configData.zOffset,
@@ -184,12 +184,12 @@ public class Config {
 					FloatSliderControllerBuilder.create(opt)
 						.range(-1f, 1f)
 						.step(0.01f)
-						.formatValue(v -> Component.literal(String.format("%.2f", v)))
+						.formatValue(v -> new TextComponent(String.format("%.2f", v)))
 				)
 				.build())
 
 			.option(Option.<Boolean>createBuilder()
-				.name(Component.literal("Item Height Animation"))
+				.name(new TextComponent("Item Height Animation"))
 				.binding(
 					true,
 					() -> configData.itemHeightAnimation,

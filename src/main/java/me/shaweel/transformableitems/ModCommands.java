@@ -1,9 +1,10 @@
 package me.shaweel.transformableitems;
 
-import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
-import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import com.mojang.brigadier.CommandDispatcher;
 
+import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
+import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 
 public class ModCommands {
 	private static boolean openConfig = false;
@@ -14,10 +15,10 @@ public class ModCommands {
 	}
 
 	public static void initialize() {
-		ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
-			dispatcher.register(ClientCommandManager.literal("transformableitems").executes(context -> { return openConfig(); }));
-			dispatcher.register(ClientCommandManager.literal("ti").executes(context -> { return openConfig(); }));
-		});
+		CommandDispatcher<FabricClientCommandSource> dispatcher = ClientCommandManager.DISPATCHER;
+	
+		dispatcher.register(ClientCommandManager.literal("transformableitems").executes(context -> { return openConfig(); }));
+		dispatcher.register(ClientCommandManager.literal("ti").executes(context -> { return openConfig(); }));
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			if (!openConfig || client.screen != null) return;
