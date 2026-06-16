@@ -1,0 +1,34 @@
+{
+	"schemaVersion": 1,
+	"id": "transformable-items",
+	"version": "1.0.0",
+	"name": "Transformable Items",
+	"description": "Lets you move and resize held items",
+	"authors": [
+		"shaweel"
+	],
+	"contact": {
+		"homepage": "https://github.com/shaweel/transformable-items",
+		"sources": "https://github.com/shaweel/transformable-items"
+	},
+	"license": "MIT",
+	"icon": "assets/transformable-items/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"client": [
+			"me.shaweel.transformableitems.TransformableItemsInitializer"
+		],
+		"modmenu": [
+			"me.shaweel.transformableitems.ModMenuIntegration"
+		]
+	},
+	"mixins": [
+		"transformable-items.mixins.json"
+	],
+	"depends": {
+		"fabricloader": "*",
+		"minecraft": ">=1.19.4 <=1.21.4",
+		"cloth-config": "*",
+		"fabric-api": "*"
+	}
+}
