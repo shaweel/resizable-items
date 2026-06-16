@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import me.shaweel.transformableitems.Config;
-import me.shaweel.transformableitems.ModCommands;
+import me.shaweel.transformableitems.ModKeybinds;
 import net.minecraft.client.Minecraft;
 
 @Mixin(Minecraft.class)
@@ -14,8 +14,8 @@ public class GuiOpener {
 	@Inject(method = "tick", at = @At("TAIL"))
 	private void onTick(CallbackInfo callbackInfo) {
 		Minecraft client = Minecraft.getInstance();
-		if (!ModCommands.openConfig || client.screen != null) return;
-		ModCommands.openConfig = false;
+
+		if (ModKeybinds.OPEN_CONFIG_KEYBIND == null || !ModKeybinds.OPEN_CONFIG_KEYBIND.consumeClick() || client.screen != null) return;
 		client.setScreen(Config.create(client.screen));
 	}
 }

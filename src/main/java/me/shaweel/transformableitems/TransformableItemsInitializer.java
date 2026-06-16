@@ -6,6 +6,5 @@ public class TransformableItemsInitializer implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		Config.load();
-		ModCommands.initialize();
 	}
 }

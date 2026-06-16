@@ -45,7 +45,7 @@ public class Config {
 			e.printStackTrace();
 		}
 	}
-
+	
 	public static Screen create(Screen parent) { 
 		ConfigBuilder builder = ConfigBuilder.create().setParentScreen(parent).setTitle(new TextComponent("Transformable Items"));
 		builder.setSavingRunnable(Config::save);
@@ -93,115 +93,5 @@ public class Config {
 			.build());
 
 		return builder.build();
-
-		/*return YetAnotherConfigLib.createBuilder()
-		.title(new TextComponent("Transformable Items"))
-		.category(ConfigCategory.createBuilder()
-			.name(new TextComponent("Configuration"))
-			.option(Option.<Float>createBuilder()
-				.name(new TextComponent("X Scale"))
-				.binding(
-					1f,
-					() -> configData.xScale,
-					v -> configData.xScale = v
-				)
-				.controller(opt ->
-					FloatSliderControllerBuilder.create(opt)
-						.range(0.1f, 2f)
-						.step(0.01f)
-						.formatValue(v -> new TextComponent(String.format("%.2f", v)))
-				)
-				.build())
-
-			.option(Option.<Float>createBuilder()
-				.name(new TextComponent("Y Scale"))
-				.binding(
-					1f,
-					() -> configData.yScale,
-					v -> configData.yScale = v
-				)
-				.controller(opt ->
-					FloatSliderControllerBuilder.create(opt)
-						.range(0.1f, 2f)
-						.step(0.01f)
-						.formatValue(v -> new TextComponent(String.format("%.2f", v)))
-				)
-				.build())
-			
-			.option(Option.<Float>createBuilder()
-				.name(new TextComponent("Z Scale"))
-				.binding(
-					1f,
-					() -> configData.zScale,
-					v -> configData.zScale = v
-				)
-				.controller(opt ->
-					FloatSliderControllerBuilder.create(opt)
-						.range(0.1f, 2f)
-						.step(0.01f)
-						.formatValue(v -> new TextComponent(String.format("%.2f", v)))
-				)
-				.build())
-
-			.option(Option.<Float>createBuilder()
-				.name(new TextComponent("X Offset"))
-				.binding(
-					0f,
-					() -> configData.xOffset,
-					v -> configData.xOffset = v
-				)
-				.controller(opt ->
-					FloatSliderControllerBuilder.create(opt)
-						.range(-1f, 1f)
-						.step(0.01f)
-						.formatValue(v -> new TextComponent(String.format("%.2f", v)))
-				)
-				.build())
-
-			.option(Option.<Float>createBuilder()
-				.name(new TextComponent("Y Offset"))
-				.binding(
-					0f,
-					() -> configData.yOffset,
-					v -> configData.yOffset = v
-				)
-				.controller(opt ->
-					FloatSliderControllerBuilder.create(opt)
-						.range(-1f, 1f)
-						.step(0.01f)
-						.formatValue(v -> new TextComponent(String.format("%.2f", v)))
-				)
-				.build())
-			
-			.option(Option.<Float>createBuilder()
-				.name(new TextComponent("Z Offset"))
-				.binding(
-					0f,
-					() -> configData.zOffset,
-					v -> configData.zOffset = v
-				)
-				.controller(opt ->
-					FloatSliderControllerBuilder.create(opt)
-						.range(-1f, 1f)
-						.step(0.01f)
-						.formatValue(v -> new TextComponent(String.format("%.2f", v)))
-				)
-				.build())
-
-			.option(Option.<Boolean>createBuilder()
-				.name(new TextComponent("Item Height Animation"))
-				.binding(
-					true,
-					() -> configData.itemHeightAnimation,
-					v -> configData.itemHeightAnimation = v
-				)
-				.controller(opt ->
-					BooleanControllerBuilder.create(opt)
-				)
-				.build())
-			.build())
-			.save(Config::save)
-			.build()
-			.generateScreen(parent);*/
 	}
 }

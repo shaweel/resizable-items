@@ -12,7 +12,7 @@
 		"sources": "https://github.com/shaweel/transformable-items"
 	},
 	"license": "MIT",
-	"icon": "assets/transformable-items/icon.png",
+	"icon": "assets/transformableitems/icon.png",
 	"environment": "client",
 	"entrypoints": {
 		"client": [
@@ -27,8 +27,8 @@
 	],
 	"depends": {
 		"fabricloader": "*",
-		"minecraft": ">=1.14 <=1.17.1",
+		"minecraft": ">=1.14 <=1.18.2",
 		"cloth-config2": "*",
-		"fabric-command-api-v1": "*"
+		"fabric-resource-loader-v0": "*"
 	}
 }
