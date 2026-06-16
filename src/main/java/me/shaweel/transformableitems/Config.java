@@ -12,6 +12,7 @@ import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 
 public class Config {
@@ -47,48 +48,48 @@ public class Config {
 	}
 	
 	public static Screen create(Screen parent) { 
-		ConfigBuilder builder = ConfigBuilder.create().setParentScreen(parent).setTitle(new TextComponent("Transformable Items"));
+		ConfigBuilder builder = ConfigBuilder.create().setParentScreen(parent).setTitle(Component.literal("Transformable Items"));
 		builder.setSavingRunnable(Config::save);
-		ConfigCategory config = builder.getOrCreateCategory(new TextComponent("Configuration"));
+		ConfigCategory config = builder.getOrCreateCategory(Component.literal("Configuration"));
 		
 		ConfigEntryBuilder entryBuilder = builder.entryBuilder();
-		config.addEntry(entryBuilder.startIntSlider(new TextComponent("X Size"), (int)(configData.xScale * 100), 10, 200)
+		config.addEntry(entryBuilder.startIntSlider(Component.literal("X Size"), (int)(configData.xScale * 100), 10, 200)
 			.setDefaultValue(100)
-			.setTextGetter(value -> new TextComponent(String.format("%.2f", value / 100f)))
+			.setTextGetter(value -> Component.literal(String.format("%.2f", value / 100f)))
 			.setSaveConsumer(value -> configData.xScale = value / 100f)
 			.build());
 
-		config.addEntry(entryBuilder.startIntSlider(new TextComponent("Y Size"), (int)(configData.yScale * 100), 10, 200)
+		config.addEntry(entryBuilder.startIntSlider(Component.literal("Y Size"), (int)(configData.yScale * 100), 10, 200)
 			.setDefaultValue(100)
-			.setTextGetter(value -> new TextComponent(String.format("%.2f", value / 100f)))
+			.setTextGetter(value -> Component.literal(String.format("%.2f", value / 100f)))
 			.setSaveConsumer(value -> configData.yScale = value / 100f)
 			.build());
 
-		config.addEntry(entryBuilder.startIntSlider(new TextComponent("Z Size"), (int)(configData.zScale * 100), 10, 200)
+		config.addEntry(entryBuilder.startIntSlider(Component.literal("Z Size"), (int)(configData.zScale * 100), 10, 200)
 			.setDefaultValue(100)
-			.setTextGetter(value -> new TextComponent(String.format("%.2f", value / 100f)))
+			.setTextGetter(value -> Component.literal(String.format("%.2f", value / 100f)))
 			.setSaveConsumer(value -> configData.zScale = value / 100f)
 			.build());
 
-		config.addEntry(entryBuilder.startIntSlider(new TextComponent("X Offset"), (int)(configData.xOffset * 100), -100, 100)
+		config.addEntry(entryBuilder.startIntSlider(Component.literal("X Offset"), (int)(configData.xOffset * 100), -100, 100)
 			.setDefaultValue(0)
-			.setTextGetter(value -> new TextComponent(String.format("%.2f", value / 100f)))
+			.setTextGetter(value -> Component.literal(String.format("%.2f", value / 100f)))
 			.setSaveConsumer(value -> configData.xOffset = value / 100f)
 			.build());
 
-		config.addEntry(entryBuilder.startIntSlider(new TextComponent("Y Offset"), (int)(configData.yOffset * 100), -100, 100)
+		config.addEntry(entryBuilder.startIntSlider(Component.literal("Y Offset"), (int)(configData.yOffset * 100), -100, 100)
 			.setDefaultValue(0)
-			.setTextGetter(value -> new TextComponent(String.format("%.2f", value / 100f)))
+			.setTextGetter(value -> Component.literal(String.format("%.2f", value / 100f)))
 			.setSaveConsumer(value -> configData.yOffset = value / 100f)
 			.build());
 
-		config.addEntry(entryBuilder.startIntSlider(new TextComponent("Z Offset"), (int)(configData.zOffset * 100), -100, 100)
+		config.addEntry(entryBuilder.startIntSlider(Component.literal("Z Offset"), (int)(configData.zOffset * 100), -100, 100)
 			.setDefaultValue(0)
-			.setTextGetter(value -> new TextComponent(String.format("%.2f", value / 100f)))
+			.setTextGetter(value -> Component.literal(String.format("%.2f", value / 100f)))
 			.setSaveConsumer(value -> configData.zOffset = value / 100f)
 			.build());
 
-		config.addEntry(entryBuilder.startBooleanToggle(new TextComponent("Item Height Animations"), configData.itemHeightAnimation)
+		config.addEntry(entryBuilder.startBooleanToggle(Component.literal("Item Height Animations"), configData.itemHeightAnimation)
 			.setDefaultValue(true)
 			.build());
 
