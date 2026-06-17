@@ -31,7 +31,6 @@ public class TransformableItems {
 		LivingEntity livingEntity,
 		ItemStack itemStack,
 		ItemDisplayContext itemDisplayContext,
-		boolean bl,
 		PoseStack poseStack,
 		MultiBufferSource multiBufferSource,
 		int i,
