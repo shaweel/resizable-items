@@ -89,6 +89,7 @@ public class Config {
 
 		config.addEntry(entryBuilder.startBooleanToggle("Item Height Animations", configData.itemHeightAnimation)
 			.setDefaultValue(true)
+			.setSaveConsumer(value -> configData.itemHeightAnimation = value)
 			.build());
 
 		return builder.build();

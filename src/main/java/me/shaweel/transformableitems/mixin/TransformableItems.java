@@ -2,7 +2,6 @@ package me.shaweel.transformableitems.mixin;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemInHandRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -13,7 +12,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import static com.mojang.blaze3d.platform.GlStateManager.popMatrix;
+import static com.mojang.blaze3d.platform.GlStateManager.pushMatrix;
+import static com.mojang.blaze3d.platform.GlStateManager.translated;
+import static com.mojang.blaze3d.platform.GlStateManager.scalef;
 
 import me.shaweel.transformableitems.Config;
 
@@ -25,24 +27,26 @@ public class TransformableItems {
 	@Shadow private float oOffHandHeight;
 	@Shadow private ItemStack mainHandItem;
 	@Shadow private ItemStack offHandItem;
-	
-	@Inject(method = "renderItem", at = @At("HEAD"))
+
+	@Inject(
+		method = "renderItem(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/client/renderer/block/model/ItemTransforms$TransformType;Z)V", 
+		at = @At("HEAD")
+	)
 	private void transform(
 		LivingEntity livingEntity,
 		ItemStack itemStack,
 		TransformType transformType,
 		boolean bl,
-		PoseStack poseStack,
-		MultiBufferSource multiBufferSource,
-		int i,
 		CallbackInfo callbackInfo
 	) {
 		if (transformType == TransformType.FIRST_PERSON_LEFT_HAND) {
-			poseStack.translate(Config.configData.xOffset, Config.configData.yOffset, Config.configData.zOffset);
-			poseStack.scale(Config.configData.xScale, Config.configData.yScale, Config.configData.zScale);
+			pushMatrix();
+			translated(Config.configData.xOffset, Config.configData.yOffset, Config.configData.zOffset);
+			scalef(Config.configData.xScale, Config.configData.yScale, Config.configData.zScale);
 		} else if (transformType == TransformType.FIRST_PERSON_RIGHT_HAND) {
-			poseStack.translate(Config.configData.xOffset * -1, Config.configData.yOffset, Config.configData.zOffset);
-			poseStack.scale(Config.configData.xScale, Config.configData.yScale, Config.configData.zScale);
+			pushMatrix();
+			translated(Config.configData.xOffset * -1, Config.configData.yOffset, Config.configData.zOffset);
+			scalef(Config.configData.xScale, Config.configData.yScale, Config.configData.zScale);
 		} else return;
 	}
 
