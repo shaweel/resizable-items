@@ -5,8 +5,7 @@
 	"client": [
 		"TransformableItems",
 		"GuiOpener",
-		"ShowKeybind",
-		"CategorySortOrderAccessor"
+		"ShowKeybind"
 	],
 	"injectors": {
 		"defaultRequire": 1
