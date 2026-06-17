@@ -1,5 +1,7 @@
 package me.shaweel.transformableitems.mixin;
 
+import java.util.Map;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -18,7 +20,13 @@ public class ShowKeybind {
 
 	@Inject(method = "load", at = @At("HEAD"))
 	private void addKeybind(CallbackInfo callbackInfo) {
-		CategorySortOrderAccessor.getCategorySortOrder().put("key.categories.transformableitems", 999);
+		Map<String, Integer> sortOrder = CategorySortOrderAccessor.getCategorySortOrder();
+		int smallestAvailable = 1;
+		while (sortOrder.containsValue(smallestAvailable)) {
+			smallestAvailable++;
+		}
+
+		sortOrder.put("key.categories.transformableitems", smallestAvailable);
 		ModKeybinds.initialize();
 		keyMappings = ArrayUtils.add(keyMappings, ModKeybinds.OPEN_CONFIG_KEYBIND);
 	}
