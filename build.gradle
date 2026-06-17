@@ -16,7 +16,7 @@ dependencies {
 	mappings loom.officialMojangMappings()
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
-	modImplementation "me.shedaniel.cloth:config-2:${cloth_version}"
+	modImplementation "me.shedaniel.cloth:config-2:${project.cloth_version}"
 }
 
 processResources {
