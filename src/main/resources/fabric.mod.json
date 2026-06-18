@@ -1,6 +1,6 @@
 {
 	"schemaVersion": 1,
-	"id": "transformable-items",
+	"id": "transformableitems",
 	"version": "1.0.0",
 	"name": "Transformable Items",
 	"description": "Lets you move and resize held items",
@@ -8,8 +8,8 @@
 		"shaweel"
 	],
 	"contact": {
-		"homepage": "https://github.com/shaweel/transformable-items",
-		"sources": "https://github.com/shaweel/transformable-items"
+		"homepage": "https://github.com/shaweel/transformableitems",
+		"sources": "https://github.com/shaweel/transformableitems"
 	},
 	"license": "MIT",
 	"icon": "assets/transformableitems/icon.png",
@@ -23,7 +23,7 @@
 		]
 	},
 	"mixins": [
-		"transformable-items.mixins.json"
+		"transformableitems.mixins.json"
 	],
 	"depends": {
 		"fabricloader": "*",
