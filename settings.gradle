@@ -10,4 +10,4 @@ pluginManagement {
 }
 
 // Should match your modid
-rootProject.name = 'transformable-items'
+rootProject.name = 'transformableitems'
