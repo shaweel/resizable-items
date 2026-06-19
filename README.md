@@ -7,7 +7,7 @@ Lets you move and resize held items, with the additional option of disabling Ite
 3. Move it into your `.minecraft/mods` directory.
 4. Launch the game
 ## Configuration
-You can open the user-friendly configuration made with [Cloth Config API](https://modrinth.com/mod/cloth-config) by either opening it via [Mod Menu](https://modrinth.com/mod/modmenu) or using the keybind(F7 by default, configured in Controls)
+You can open the user-friendly custom made configuration by either opening it via [Mod Menu](https://modrinth.com/mod/modmenu) or using the keybind(F7 by default, configured in Controls)
 ## Screenshots
 <img width="1920" height="1079" alt="изображение" src="https://github.com/user-attachments/assets/40294185-679c-4a06-9eaa-c31891b05611" />
 <img width="1920" height="1080" alt="изображение" src="https://github.com/user-attachments/assets/73443e83-4e79-4cb2-9f95-6b7d11c79838" />
