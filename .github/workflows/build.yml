@@ -1,4 +1,4 @@
-name: Build the transformable-items .jar file
+name: Build the transformableitems .jar file
 on: [pull_request, push]
 
 jobs:
@@ -22,14 +22,14 @@ jobs:
           echo "MOD_VERSION=$(grep '^mod_version' gradle.properties | cut -d'=' -f2 | tr -d ' ')" >> $GITHUB_ENV
           echo "MINECRAFT_VERSION=$(echo ${{ github.ref_name }} | tr '/' '-')" >> $GITHUB_ENV
           
-      - name: Build the transformable-items .jar file
+      - name: Build the transformableitems .jar file
         run: | 
           chmod +x ./gradlew
           ./gradlew build
-          mv build/libs/transformableitems.jar build/libs/transformable-items-mc${{ env.MINECRAFT_VERSION }}-v${{ env.MOD_VERSION }}+b${{ github.run_number }}.jar
+          mv build/libs/transformableitems-${{ env.MOD_VERSION }}.jar build/libs/transformableitems-mc${{ env.MINECRAFT_VERSION }}-v${{ env.MOD_VERSION }}+b${{ github.run_number }}.jar
 
-      - name: Upload the transformable-items .jar file
+      - name: Upload the transformableitems .jar file
         uses: actions/upload-artifact@v7
         with:
-          path: build/libs/transformable-items-mc${{ env.MINECRAFT_VERSION }}-v${{ env.MOD_VERSION }}+b${{ github.run_number }}.jar
+          path: build/libs/transformableitems-mc${{ env.MINECRAFT_VERSION }}-v${{ env.MOD_VERSION }}+b${{ github.run_number }}.jar
           archive: false

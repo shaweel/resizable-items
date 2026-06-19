@@ -1,12 +1,12 @@
 modLoader="javafml"
-loaderVersion=""
+loaderVersion="(,)"
 license="MIT"
 #issueTrackerURL="https://github.com/MyOrganization/MyMod/" #optional
 clientSideOnly=true
 
 [[mods]]
 modId="transformableitems"
-version="1.0.0"
+version="1.0.1"
 displayName="Transformable Items"
 logoFile="transformableitems.png"
 authors="shaweel"
@@ -23,12 +23,5 @@ description="Lets you move and resize held items"
 	modId="minecraft"
 	mandatory=true
 	versionRange="[26.1,26.1.2,)"
-	ordering="NONE"
-	side="BOTH"
-
-[[dependencies.transformableitems]]
-	modId="clothconfig"
-	mandatory=true
-	versionRange=""
 	ordering="NONE"
 	side="BOTH"

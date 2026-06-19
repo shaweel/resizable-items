@@ -3,7 +3,7 @@ Lets you move and resize held items, with the additional option of disabling Ite
 ## Installation
 <sup>Transformable Items is currently only available for Fabric from 1.14.1 to 26.1.2. Forge support and support for versions down to 1.7.10 and up to 26.2 is coming soon.</sup>
 1. Install [Fabric](https://fabricmc.net/)
-2. Download the mod for your Minecraft version of choice from the [releases](https://github.com/shaweel/transformable-items/releases)
+2. Download the mod for your Minecraft version of choice from the [releases](https://github.com/shaweel/transformableitems/releases)
 3. Move it into your `.minecraft/mods` directory.
 4. Launch the game
 ## Configuration
