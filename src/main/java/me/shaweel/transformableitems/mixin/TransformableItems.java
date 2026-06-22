@@ -2,7 +2,7 @@ package me.shaweel.transformableitems.mixin;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemInHandRenderer;
-import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -32,7 +32,7 @@ public class TransformableItems {
 		ItemStack itemStack,
 		ItemDisplayContext itemDisplayContext,
 		PoseStack poseStack,
-		SubmitNodeCollector submitNodeCollector,
+		MultiBufferSource multiBufferSource,
 		int i,
 		CallbackInfo callbackInfo
 	) {
