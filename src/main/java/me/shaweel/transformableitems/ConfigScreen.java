@@ -9,7 +9,7 @@ import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.CycleButton;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.util.Mth;
 
 public class ConfigScreen extends Screen {
@@ -31,7 +31,7 @@ public class ConfigScreen extends Screen {
 	public static final float DEFAULT_OFFSET = 0f;
 	
 	public ConfigScreen() {
-		super(Component.literal("ConfigScreen"));
+		super(new TextComponent("ConfigScreen"));
 	}
 
 	private int row(int index, int rowAmount) {
@@ -63,11 +63,11 @@ public class ConfigScreen extends Screen {
 	}
 
 	private void createButton(int x, int y, int w, int h, String name, Runnable action) {
-		this.addRenderableWidget(new Button(x, y, w, h, Component.literal(name), button -> action.run()));
+		this.addRenderableWidget(new Button(x, y, w, h, new TextComponent(name), button -> action.run()));
 	}
 
 	private void createSlider(int x, int y, int w, int h, String name, double min, double max, Supplier<Float> getter, Consumer<Float> setter, Float defaultValue) {
-		this.addRenderableWidget(new AbstractSliderButton(x, y, w, h, Component.literal(name), normalize(min, max, getter.get())) {
+		this.addRenderableWidget(new AbstractSliderButton(x, y, w, h, new TextComponent(name), normalize(min, max, getter.get())) {
 			{
 				updateMessage();
 				createButton(x + w + WIDGET_PADDING, y, RESET_BUTTON_WIDTH, h, "Reset", () -> {
@@ -88,7 +88,7 @@ public class ConfigScreen extends Screen {
 
 			@Override
 			protected void updateMessage() {
-			setMessage(Component.literal(
+			setMessage(new TextComponent(
 				String.format("%s: %.2f", name, denormalize(min, max, this.value))
 			));
 			}
@@ -103,7 +103,7 @@ public class ConfigScreen extends Screen {
 
 	private void createBooleanOption(int x, int y, int w, int h, String name, Supplier<Boolean> getter, Consumer<Boolean> setter, Boolean defaultValue) {
 		CycleButton<Boolean> booleanOption = this.addRenderableWidget(CycleButton.onOffBuilder(getter.get()).create(
-			x, y, w, h, Component.literal(name), (button, value) -> {
+			x, y, w, h, new TextComponent(name), (button, value) -> {
 				setter.accept(value);
 				ConfigFile.save();
 			}
