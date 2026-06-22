@@ -7,7 +7,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.CycleButton;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.util.Mth;
@@ -63,11 +62,11 @@ public class ConfigScreen extends Screen {
 	}
 
 	private void createButton(int x, int y, int w, int h, String name, Runnable action) {
-		this.addRenderableWidget(new Button(x, y, w, h, new TextComponent(name), button -> action.run()));
+		this.addButton(new Button(x, y, w, h, new TextComponent(name), button -> action.run()));
 	}
 
 	private void createSlider(int x, int y, int w, int h, String name, double min, double max, Supplier<Float> getter, Consumer<Float> setter, Float defaultValue) {
-		this.addRenderableWidget(new AbstractSliderButton(x, y, w, h, new TextComponent(name), normalize(min, max, getter.get())) {
+		this.addButton(new AbstractSliderButton(x, y, w, h, new TextComponent(name), normalize(min, max, getter.get())) {
 			{
 				updateMessage();
 				createButton(x + w + WIDGET_PADDING, y, RESET_BUTTON_WIDTH, h, "Reset", () -> {
@@ -101,16 +100,22 @@ public class ConfigScreen extends Screen {
 		});
 	}
 
+	private TextComponent getBooleanText(String name, boolean value) {
+		return new TextComponent(String.format("%s: %s", name, value ? "ON" : "OFF"));
+	}
+
 	private void createBooleanOption(int x, int y, int w, int h, String name, Supplier<Boolean> getter, Consumer<Boolean> setter, Boolean defaultValue) {
-		CycleButton<Boolean> booleanOption = this.addRenderableWidget(CycleButton.onOffBuilder(getter.get()).create(
-			x, y, w, h, new TextComponent(name), (button, value) -> {
-				setter.accept(value);
-				ConfigFile.save();
-			}
-		));
+		Button booleanOption = this.addButton(new Button(x, y, w, h, getBooleanText(name, getter.get()), button -> {
+			boolean newValue = !getter.get();
+			setter.accept(newValue);
+
+			button.setMessage(getBooleanText(name, newValue));
+
+			ConfigFile.save();
+		}));
 
 		createButton(x + w + WIDGET_PADDING, y, RESET_BUTTON_WIDTH, h, "Reset", () -> {
-			booleanOption.setValue(defaultValue);
+			booleanOption.setMessage(getBooleanText(name, defaultValue));
 		});
 	}
 
