@@ -8,7 +8,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.CycleButton;
-import net.minecraft.client.gui.components.CenteredStringWidget;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
@@ -64,7 +63,7 @@ public class ConfigScreen extends Screen {
 	}
 
 	private void createButton(int x, int y, int w, int h, String name, Runnable action) {
-		this.addRenderableWidget(Button.builder(Component.literal(name), button -> action.run()).bounds(x, y, w, h).build());
+		this.addRenderableWidget(new Button(x, y, w, h, Component.literal(name), button -> action.run()));
 	}
 
 	private void createSlider(int x, int y, int w, int h, String name, double min, double max, Supplier<Float> getter, Consumer<Float> setter, Float defaultValue) {
@@ -115,18 +114,13 @@ public class ConfigScreen extends Screen {
 		});
 	}
 
-	private void createText(int x, int y, String text) {
-		CenteredStringWidget stringWidget = new CenteredStringWidget(Component.literal(text), this.font);
-		stringWidget.setX(x); stringWidget.setY(y);
-
-		this.addRenderableWidget(stringWidget);
+	private void createText(PoseStack poseStack, int x, int y, String text) {
+		drawString(poseStack, this.font, text, x, y, 0xFFFFFF);
 	}
 
 	@Override
 	protected void init() {
 		super.init();
-
-		createText(x(this.font.width("Transformable Items Configuration")), TITLE_PADDING, "Transformable Items Configuration");
 
 		createSlider(x(), row(0, 7), WIDGET_WIDTH, WIDGET_HEIGHT, "X Scale", MIN_SCALE, MAX_SCALE, 
 		() -> ConfigFile.configData.xScale, value -> ConfigFile.configData.xScale = value, DEFAULT_SCALE);
@@ -157,6 +151,9 @@ public class ConfigScreen extends Screen {
 	@Override
 	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
 		this.renderBackground(poseStack);
+
+		createText(poseStack, x(this.font.width("Transformable Items Configuration")), TITLE_PADDING, "Transformable Items Configuration");
+
 		super.render(poseStack, mouseX, mouseY, partialTick);
 	}
 }
