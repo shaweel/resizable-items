@@ -3,7 +3,8 @@ package me.shaweel.transformableitems;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import net.minecraft.client.gui.GuiGraphics;
+import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.CycleButton;
@@ -154,8 +155,8 @@ public class ConfigScreen extends Screen {
 	}
 
 	@Override
-	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-		this.renderBackground(guiGraphics);
-		super.render(guiGraphics, mouseX, mouseY, partialTick);
+	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+		this.renderBackground(poseStack);
+		super.render(poseStack, mouseX, mouseY, partialTick);
 	}
 }
