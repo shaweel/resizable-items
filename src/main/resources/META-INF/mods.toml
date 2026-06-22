@@ -14,13 +14,13 @@ description="Lets you move and resize held items"
 [[dependencies.transformableitems]]
 	modId="forge"
 	mandatory=true
-	versionRange="[64,)"
+	versionRange="[0,)"
 	ordering="NONE"
 	side="BOTH"
 
 [[dependencies.transformableitems]]
 	modId="minecraft"
 	mandatory=true
-	versionRange="[1.21.11]"
+	versionRange="[26.1,26.1.2]"
 	ordering="NONE"
 	side="BOTH"
