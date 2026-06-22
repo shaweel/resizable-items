@@ -8,7 +8,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.CycleButton;
-import net.minecraft.client.gui.components.StringWidget;
+import net.minecraft.client.gui.components.CenteredStringWidget;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
@@ -116,7 +116,7 @@ public class ConfigScreen extends Screen {
 	}
 
 	private void createText(int x, int y, String text) {
-		StringWidget stringWidget = new StringWidget(Component.literal(text), this.font);
+		CenteredStringWidget stringWidget = new CenteredStringWidget(Component.literal(text), this.font);
 		stringWidget.setX(x); stringWidget.setY(y);
 
 		this.addRenderableWidget(stringWidget);
