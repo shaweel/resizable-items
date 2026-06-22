@@ -3,8 +3,6 @@ package me.shaweel.transformableitems;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
@@ -62,11 +60,11 @@ public class ConfigScreen extends Screen {
 	}
 
 	private void createButton(int x, int y, int w, int h, String name, Runnable action) {
-		this.addButton(new Button(x, y, w, h, new TextComponent(name), button -> action.run()));
+		this.addButton(new Button(x, y, w, h, name, button -> action.run()));
 	}
 
 	private void createSlider(int x, int y, int w, int h, String name, double min, double max, Supplier<Float> getter, Consumer<Float> setter, Float defaultValue) {
-		this.addButton(new AbstractSliderButton(x, y, w, h, new TextComponent(name), normalize(min, max, getter.get())) {
+		this.addButton(new AbstractSliderButton(x, y, w, h, normalize(min, max, getter.get())) {
 			{
 				updateMessage();
 				createButton(x + w + WIDGET_PADDING, y, RESET_BUTTON_WIDTH, h, "Reset", () -> {
@@ -86,11 +84,7 @@ public class ConfigScreen extends Screen {
 			}
 
 			@Override
-			protected void updateMessage() {
-			setMessage(new TextComponent(
-				String.format("%s: %.2f", name, denormalize(min, max, this.value))
-			));
-			}
+			protected void updateMessage() { setMessage(String.format("%s: %.2f", name, denormalize(min, max, this.value))); }
 
 			@Override
 			protected void applyValue() {
@@ -100,8 +94,8 @@ public class ConfigScreen extends Screen {
 		});
 	}
 
-	private TextComponent getBooleanText(String name, boolean value) {
-		return new TextComponent(String.format("%s: %s", name, value ? "ON" : "OFF"));
+	private String getBooleanText(String name, boolean value) {
+		return String.format("%s: %s", name, value ? "ON" : "OFF");
 	}
 
 	private void createBooleanOption(int x, int y, int w, int h, String name, Supplier<Boolean> getter, Consumer<Boolean> setter, Boolean defaultValue) {
@@ -119,8 +113,8 @@ public class ConfigScreen extends Screen {
 		});
 	}
 
-	private void createText(PoseStack poseStack, int x, int y, String text) {
-		drawString(poseStack, this.font, text, x, y, 0xFFFFFF);
+	private void createText(int x, int y, String text) {
+		drawString(this.font, text, x, y, 0xFFFFFF);
 	}
 
 	@Override
@@ -154,11 +148,11 @@ public class ConfigScreen extends Screen {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-		this.renderBackground(poseStack);
+	public void render(int mouseX, int mouseY, float partialTick) {
+		this.renderBackground();
 
-		createText(poseStack, x(this.font.width("Transformable Items Configuration")), TITLE_PADDING, "Transformable Items Configuration");
+		createText(x(this.font.width("Transformable Items Configuration")), TITLE_PADDING, "Transformable Items Configuration");
 
-		super.render(poseStack, mouseX, mouseY, partialTick);
+		super.render(mouseX, mouseY, partialTick);
 	}
 }
