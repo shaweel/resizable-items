@@ -5,7 +5,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import me.shaweel.transformableitems.Config;
+import me.shaweel.transformableitems.ConfigScreen;
 import me.shaweel.transformableitems.ModKeybinds;
 import net.minecraft.client.Minecraft;
 
@@ -16,6 +16,6 @@ public class GuiOpener {
 		Minecraft client = Minecraft.getInstance();
 
 		if (ModKeybinds.OPEN_CONFIG_KEYBIND == null || !ModKeybinds.OPEN_CONFIG_KEYBIND.consumeClick() || client.screen != null) return;
-		client.setScreen(Config.create(client.screen));
+		client.setScreen(new ConfigScreen());
 	}
 }
