@@ -19,6 +19,7 @@ minecraft {
 
 			systemProperty "eventbus.api.strictRuntimeChecks", "true"
 			systemProperty "forge.enabledGameTestNamespaces", "transformableitems"
+			args "--mixin.config=transformableitems.mixins.json"
 		}
 
 		register("client")
@@ -51,4 +52,11 @@ dependencies {
 
 tasks.withType(JavaCompile).configureEach {
 	options.encoding = "UTF-8"
+}
+
+
+tasks.named('jar', Jar) {
+	manifest {
+		attributes['MixinConfigs'] = "transformableitems.mixins.json"
+	}
 }
