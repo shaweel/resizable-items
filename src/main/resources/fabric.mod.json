@@ -23,7 +23,7 @@
 		]
 	},
 	"mixins": [
-		"transformable-items.mixins.json"
+		"transformableitems.mixins.json"
 	],
 	"depends": {
 		"fabricloader": "*",
