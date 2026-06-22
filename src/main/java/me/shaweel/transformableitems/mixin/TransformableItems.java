@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import me.shaweel.transformableitems.Config;
+import me.shaweel.transformableitems.ConfigFile;
 
 @Mixin(ItemInHandRenderer.class)
 public class TransformableItems {
@@ -38,17 +38,17 @@ public class TransformableItems {
 		CallbackInfo callbackInfo
 	) {
 		if (itemDisplayContext == ItemDisplayContext.FIRST_PERSON_LEFT_HAND) {
-			poseStack.translate(Config.configData.xOffset, Config.configData.yOffset, Config.configData.zOffset);
-			poseStack.scale(Config.configData.xScale, Config.configData.yScale, Config.configData.zScale);
+			poseStack.translate(ConfigFile.configData.xOffset, ConfigFile.configData.yOffset, ConfigFile.configData.zOffset);
+			poseStack.scale(ConfigFile.configData.xScale, ConfigFile.configData.yScale, ConfigFile.configData.zScale);
 		} else if (itemDisplayContext == ItemDisplayContext.FIRST_PERSON_RIGHT_HAND) {
-			poseStack.translate(Config.configData.xOffset * -1, Config.configData.yOffset, Config.configData.zOffset);
-			poseStack.scale(Config.configData.xScale, Config.configData.yScale, Config.configData.zScale);
+			poseStack.translate(ConfigFile.configData.xOffset * -1, ConfigFile.configData.yOffset, ConfigFile.configData.zOffset);
+			poseStack.scale(ConfigFile.configData.xScale, ConfigFile.configData.yScale, ConfigFile.configData.zScale);
 		} else return;
 	}
 
 	@Inject(method = "tick", at = @At("HEAD"), cancellable = true)
 	private void tick(CallbackInfo callbackInfo) {
-		if (Config.configData.itemHeightAnimation) return;
+		if (ConfigFile.configData.itemHeightAnimations) return;
 		oMainHandHeight = 1f;
 		oOffHandHeight = 1f;
 		mainHandHeight = 1f;
