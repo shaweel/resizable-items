@@ -8,6 +8,6 @@ import net.minecraft.client.gui.screens.Screen;
 public class ModMenuIntegration implements ModMenuApi {
 	@Override
 	public ConfigScreenFactory<Screen> getModConfigScreenFactory() {
-		return parent -> Config.create(parent);
+		return parent -> new ConfigScreen();
 	}
 }
