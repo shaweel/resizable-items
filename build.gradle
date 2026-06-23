@@ -3,12 +3,21 @@ plugins {
 	id "idea"
 	id "eclipse"
 	id "net.minecraftforge.gradle" version "${forgegradle_version}"
+	id 'net.minecraftforge.renamer' version '1.0.14'
 }
 
 version = mod_version
 group = "me.shaweel.transformableitems"
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(25)
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+renamer.enableMixinRefmaps {
+	config "transformableitems.mixins.json"
+}
+renamer.classes(tasks.named('jar', Jar)) {
+	archiveClassifier = 'srg'
+	mappings renamer.mixin.generatedMappings
+}
 
 sourceSets.main.resources { srcDir "src/generated/resources" }
 
@@ -44,6 +53,8 @@ repositories {
 	maven fg.minecraftLibsMaven
 	mavenCentral()
 }
+
+renamer.mappings(minecraft.dependency.toSrg)
 
 dependencies {
 	implementation minecraft.dependency("net.minecraftforge:forge:${minecraft_version}-${forge_version}")
