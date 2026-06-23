@@ -8,7 +8,7 @@ plugins {
 version = mod_version
 group = "me.shaweel.transformableitems"
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(25)
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 sourceSets.main.resources { srcDir "src/generated/resources" }
 
