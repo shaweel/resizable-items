@@ -23,18 +23,6 @@ minecraft {
 		}
 
 		register("client")
-
-		register("server") {
-			args "--nogui"
-		}
-
-		register("gameTestServer")
-
-		register("data") {
-			workingDir = layout.projectDirectory.dir("run-data")
-
-			args "--mod", "transformableitems", "--all", "--output", layout.projectDirectory.dir("src/generated/resources"), "--existing", layout.projectDirectory.dir("src/main/resources")
-		}
 	}
 }
 
