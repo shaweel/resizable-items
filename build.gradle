@@ -9,11 +9,12 @@ plugins {
 version = mod_version
 group = "me.shaweel.transformableitems"
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 renamer.enableMixinRefmaps {
 	config "transformableitems.mixins.json"
 }
+
 renamer.classes(tasks.named('jar', Jar)) {
 	archiveClassifier = 'srg'
 	mappings renamer.mixin.generatedMappings
@@ -32,18 +33,6 @@ minecraft {
 		}
 
 		register("client")
-
-		register("server") {
-			args "--nogui"
-		}
-
-		register("gameTestServer")
-
-		register("data") {
-			workingDir = layout.projectDirectory.dir("run-data")
-
-			args "--mod", "transformableitems", "--all", "--output", layout.projectDirectory.dir("src/generated/resources"), "--existing", layout.projectDirectory.dir("src/main/resources")
-		}
 	}
 }
 
@@ -54,20 +43,13 @@ repositories {
 	mavenCentral()
 }
 
-renamer.mappings(minecraft.dependency.toSrg)
-
 dependencies {
 	implementation minecraft.dependency("net.minecraftforge:forge:${minecraft_version}-${forge_version}")
-	annotationProcessor "net.minecraftforge:eventbus-validator:7.0.1"
+	annotationProcessor 'org.spongepowered:mixin:0.8.7:processor'
 }
+
+renamer.mappings(minecraft.dependency.toSrg)
 
 tasks.withType(JavaCompile).configureEach {
 	options.encoding = "UTF-8"
-}
-
-
-tasks.named('jar', Jar) {
-	manifest {
-		attributes['MixinConfigs'] = "transformableitems.mixins.json"
-	}
 }
