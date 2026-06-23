@@ -8,7 +8,7 @@ plugins {
 version = mod_version
 group = "me.shaweel.transformableitems"
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(25)
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 sourceSets.main.resources { srcDir "src/generated/resources" }
 
@@ -47,7 +47,6 @@ repositories {
 
 dependencies {
 	implementation minecraft.dependency("net.minecraftforge:forge:${minecraft_version}-${forge_version}")
-	annotationProcessor "net.minecraftforge:eventbus-validator:7.0.1"
 }
 
 tasks.withType(JavaCompile).configureEach {
