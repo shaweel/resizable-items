@@ -10,6 +10,6 @@ public class TransformableItems {
 	public TransformableItems(ModContainer container) {
 		ConfigFile.load();
 
-		container.registerExtensionPoint(IConfigScreenFactory.class, (_, _) -> new ConfigScreen());
+		container.registerExtensionPoint(IConfigScreenFactory.class, (client, parent) -> new ConfigScreen());
 	}
 }
