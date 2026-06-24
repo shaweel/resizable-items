@@ -21,12 +21,12 @@ public class ConfigFile {
 	}
 
 	public static ConfigData configData = new ConfigData();
-	private static final Path FILE = Minecraft.getInstance().gameDirectory.toPath().resolve("config/transformable-items.json");
+	private static final Path FILE = Minecraft.getInstance().gameDirectory.toPath().resolve("config/transformableitems.json");
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
 	public static void save() {
 		try {
-			Files.writeString(FILE, GSON.toJson(configData).replace("  ", "\t"));
+			Files.write(FILE, GSON.toJson(configData).replace("  ", "\t").getBytes("UTF-8"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -35,7 +35,7 @@ public class ConfigFile {
 	public static void load() {
 		try {
 			if (!Files.exists(FILE)) return;
-			configData = GSON.fromJson(Files.readString(FILE), ConfigData.class);
+			configData = GSON.fromJson(new String(Files.readAllBytes(FILE), "UTF-8"), ConfigData.class);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
