@@ -30,6 +30,12 @@ minecraft {
 			systemProperty "eventbus.api.strictRuntimeChecks", "true"
 			systemProperty "forge.enabledGameTestNamespaces", "transformableitems"
 			args "--mixin.config=transformableitems.mixins.json"
+
+			jvmArgs(
+                            "--add-exports=cpw.mods.bootstraplauncher/cpw.mods.bootstraplauncher=ALL-UNNAMED",
+                            "--add-opens=cpw.mods.bootstraplauncher/cpw.mods.bootstraplauncher=ALL-UNNAMED",
+                            "--add-opens=java.base/java.lang.invoke=ALL-UNNAMED"
+                        )
 		}
 
 		register("client")
