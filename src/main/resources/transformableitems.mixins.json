@@ -1,6 +1,7 @@
 {
 	"required": true,
 	"package": "me.shaweel.transformableitems.mixin",
+	"refmap": "main.refmap.json",
 	"compatibilityLevel": "JAVA_17",
 	"client": [
 		"TransformableItems",
