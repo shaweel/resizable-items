@@ -6,7 +6,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 @Mod("transformableitems")
 public class TransformableItems {
-	public TransformableItems(FMLJavaModLoadingContext context) {
+	public TransformableItems(FMLJavaModLoadingContext modLoadingContext) {
 		ConfigFile.load();
 		MinecraftForge.registerConfigScreen((mc, screen) -> new ConfigScreen());
 	}
