@@ -9,7 +9,7 @@ plugins {
 version = mod_version
 group = "me.shaweel.transformableitems"
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
 renamer.enableMixinRefmaps {
 	config "transformableitems.mixins.json"
@@ -32,10 +32,10 @@ minecraft {
 			args "--mixin.config=transformableitems.mixins.json"
 
 			jvmArgs(
-                            "--add-exports=cpw.mods.bootstraplauncher/cpw.mods.bootstraplauncher=ALL-UNNAMED",
-                            "--add-opens=cpw.mods.bootstraplauncher/cpw.mods.bootstraplauncher=ALL-UNNAMED",
-                            "--add-opens=java.base/java.lang.invoke=ALL-UNNAMED"
-                        )
+				"--add-exports=cpw.mods.bootstraplauncher/cpw.mods.bootstraplauncher=ALL-UNNAMED",
+				"--add-opens=cpw.mods.bootstraplauncher/cpw.mods.bootstraplauncher=ALL-UNNAMED",
+				"--add-opens=java.base/java.lang.invoke=ALL-UNNAMED"
+			)
 		}
 
 		register("client")
