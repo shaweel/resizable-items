@@ -1,8 +1,8 @@
 package me.shaweel.transformableitems;
 
-import net.minecraftforge.client.ConfigGuiHandler.ConfigGuiFactory;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fmlclient.ConfigGuiHandler.ConfigGuiFactory;
 
 @Mod("transformableitems")
 public class TransformableItems {
