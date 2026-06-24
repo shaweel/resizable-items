@@ -7,7 +7,6 @@ import java.nio.file.Path;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import net.minecraft.client.Minecraft;
 import net.neoforged.fml.loading.FMLPaths;
 
 public class ConfigFile {

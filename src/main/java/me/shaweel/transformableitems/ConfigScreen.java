@@ -9,6 +9,7 @@ import net.minecraft.client.gui.components.CycleButton;
 import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
 
 public class ConfigScreen extends Screen {
 	public enum OptionTypes { FLOAT_SLIDER, BOOLEAN_OPTION }
@@ -69,10 +70,21 @@ public class ConfigScreen extends Screen {
 			{
 				updateMessage();
 				createButton(x + w + WIDGET_PADDING, y, RESET_BUTTON_WIDTH, h, "Reset", () -> {
-					this.setValue((defaultValue - min) / (max - min));
+					this.resetValue();
 				});
 			}
 			
+			public void resetValue() {
+				double oldValue = this.value;
+				double newValue = (defaultValue - min) / (max - min);
+				this.value = Mth.clamp(newValue, (double)0.0F, (double)1.0F);
+				if (oldValue != this.value) {
+					this.applyValue();
+				}
+
+				this.updateMessage();
+			}
+
 			@Override
 			protected void updateMessage() {
 			setMessage(Component.literal(
