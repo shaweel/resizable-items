@@ -26,7 +26,9 @@ jobs:
         run: | 
           chmod +x ./gradlew
           ./gradlew build
+          ls -lah build/libs
           mv build/libs/transformableitems-${{ env.MOD_VERSION }}-srg.jar build/libs/transformableitems-mc${{ env.MINECRAFT_VERSION }}-v${{ env.MOD_VERSION }}+b${{ github.run_number }}.jar
+          ls -lah build/libs
 
       - name: Upload the transformableitems .jar file
         uses: actions/upload-artifact@v7
