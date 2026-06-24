@@ -1,13 +1,11 @@
 {
 	"required": true,
 	"package": "me.shaweel.transformableitems.mixin",
-	"refmap": "main.refmap.json",
-	"compatibilityLevel": "JAVA_8",
+	"compatibilityLevel": "JAVA_25",
 	"client": [
 		"TransformableItems",
 		"GuiOpener",
-		"ShowKeybind",
-		"CategorySortOrderAccessor"
+		"ShowKeybind"
 	],
 	"injectors": {
 		"defaultRequire": 1

@@ -3,29 +3,25 @@
   "configurations": [
     {
       "type": "java",
-      "name": "Minecraft Client",
       "request": "launch",
+      "name": "Client",
+      "presentation": {
+        "group": "Mod Development - transformableitems",
+        "order": 0
+      },
+      "projectName": "transformableitems",
+      "mainClass": "net.neoforged.devlaunch.Main",
+      "args": [
+        "@/home/shaweel/Code/transformableitems/build/moddev/clientRunProgramArgs.txt"
+      ],
+      "vmArgs": [
+        "@/home/shaweel/Code/transformableitems/build/moddev/clientRunVmArgs.txt",
+        "-Dfml.modFolders\u003dtransformableitems%%/home/shaweel/Code/transformableitems/bin/main"
+      ],
       "cwd": "${workspaceFolder}/run",
-      "console": "integratedTerminal",
-      "stopOnEntry": false,
-      "mainClass": "net.fabricmc.devlaunchinjector.Main",
-      "vmArgs": "-Dfabric.dli.config\u003d/home/shaweel/Code/transformableitems/.gradle/loom-cache/launch.cfg -Dfabric.dli.env\u003dclient -Dfabric.dli.main\u003dnet.fabricmc.loader.impl.launch.knot.KnotClient",
-      "args": "",
       "env": {},
-      "projectName": "transformableitems"
-    },
-    {
-      "type": "java",
-      "name": "Minecraft Server",
-      "request": "launch",
-      "cwd": "${workspaceFolder}/run",
-      "console": "integratedTerminal",
-      "stopOnEntry": false,
-      "mainClass": "net.fabricmc.devlaunchinjector.Main",
-      "vmArgs": "-Dfabric.dli.config\u003d/home/shaweel/Code/transformableitems/.gradle/loom-cache/launch.cfg -Dfabric.dli.env\u003dserver -Dfabric.dli.main\u003dnet.fabricmc.loader.impl.launch.knot.KnotServer",
-      "args": "nogui",
-      "env": {},
-      "projectName": "transformableitems"
+      "console": "internalConsole",
+      "shortenCommandLine": "none"
     }
   ]
 }

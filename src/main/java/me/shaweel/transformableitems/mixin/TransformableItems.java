@@ -2,9 +2,9 @@ package me.shaweel.transformableitems.mixin;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemInHandRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -30,17 +30,16 @@ public class TransformableItems {
 	private void transform(
 		LivingEntity livingEntity,
 		ItemStack itemStack,
-		TransformType transformType,
-		boolean bl,
+		ItemDisplayContext itemDisplayContext,
 		PoseStack poseStack,
-		MultiBufferSource multiBufferSource,
+		SubmitNodeCollector submitNodeCollector,
 		int i,
 		CallbackInfo callbackInfo
 	) {
-		if (transformType == TransformType.FIRST_PERSON_LEFT_HAND) {
+		if (itemDisplayContext == ItemDisplayContext.FIRST_PERSON_LEFT_HAND) {
 			poseStack.translate(ConfigFile.configData.xOffset, ConfigFile.configData.yOffset, ConfigFile.configData.zOffset);
 			poseStack.scale(ConfigFile.configData.xScale, ConfigFile.configData.yScale, ConfigFile.configData.zScale);
-		} else if (transformType == TransformType.FIRST_PERSON_RIGHT_HAND) {
+		} else if (itemDisplayContext == ItemDisplayContext.FIRST_PERSON_RIGHT_HAND) {
 			poseStack.translate(ConfigFile.configData.xOffset * -1, ConfigFile.configData.yOffset, ConfigFile.configData.zOffset);
 			poseStack.scale(ConfigFile.configData.xScale, ConfigFile.configData.yScale, ConfigFile.configData.zScale);
 		} else return;

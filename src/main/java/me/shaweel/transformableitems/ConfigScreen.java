@@ -3,15 +3,14 @@ package me.shaweel.transformableitems;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.client.gui.components.AbstractSliderButton;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.CycleButton;
+import net.minecraft.client.gui.components.StringWidget;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
 
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.gui.widget.AbstractSlider;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.StringTextComponent;
-
-public class ConfigScreen extends Screen { 
+public class ConfigScreen extends Screen {
 	public enum OptionTypes { FLOAT_SLIDER, BOOLEAN_OPTION }
 	public static final int DONE_BUTTON_PADDING = 7;
 	public static final int TITLE_PADDING = 12;
@@ -30,7 +29,7 @@ public class ConfigScreen extends Screen {
 	public static final float DEFAULT_OFFSET = 0f;
 	
 	public ConfigScreen() {
-		super(new StringTextComponent("ConfigScreen"));
+		super(Component.literal("ConfigScreen"));
 	}
 
 	private int row(int index, int rowAmount) {
@@ -62,32 +61,21 @@ public class ConfigScreen extends Screen {
 	}
 
 	private void createButton(int x, int y, int w, int h, String name, Runnable action) {
-		this.addButton(new Button(x, y, w, h, new StringTextComponent(name), button -> action.run()));
+		this.addRenderableWidget(Button.builder(Component.literal(name), button -> action.run()).bounds(x, y, w, h).build());
 	}
 
 	private void createSlider(int x, int y, int w, int h, String name, double min, double max, Supplier<Float> getter, Consumer<Float> setter, Float defaultValue) {
-		this.addButton(new AbstractSlider(x, y, w, h, new StringTextComponent(name), normalize(min, max, getter.get())) {
+		this.addRenderableWidget(new AbstractSliderButton(x, y, w, h, Component.literal(name), normalize(min, max, getter.get())) {
 			{
 				updateMessage();
 				createButton(x + w + WIDGET_PADDING, y, RESET_BUTTON_WIDTH, h, "Reset", () -> {
-					this.resetValue();
+					this.setValue((defaultValue - min) / (max - min));
 				});
 			}
 			
-			public void resetValue() {
-				double oldValue = this.value;
-				double newValue = (defaultValue - min) / (max - min);
-				this.value = MathHelper.clamp(newValue, (double)0.0F, (double)1.0F);
-				if (oldValue != this.value) {
-					this.applyValue();
-				}
-
-				this.updateMessage();
-			}
-
 			@Override
 			protected void updateMessage() {
-			setMessage(new StringTextComponent(
+			setMessage(Component.literal(
 				String.format("%s: %.2f", name, denormalize(min, max, this.value))
 			));
 			}
@@ -100,32 +88,31 @@ public class ConfigScreen extends Screen {
 		});
 	}
 
-	private StringTextComponent getBooleanText(String name, boolean value) {
-		return new StringTextComponent(String.format("%s: %s", name, value ? "ON" : "OFF"));
-	}
-
 	private void createBooleanOption(int x, int y, int w, int h, String name, Supplier<Boolean> getter, Consumer<Boolean> setter, Boolean defaultValue) {
-		Button booleanOption = this.addButton(new Button(x, y, w, h, getBooleanText(name, getter.get()), button -> {
-			boolean newValue = !getter.get();
-			setter.accept(newValue);
-
-			button.setMessage(getBooleanText(name, newValue));
-
-			ConfigFile.save();
-		}));
+		CycleButton<Boolean> booleanOption = this.addRenderableWidget(CycleButton.onOffBuilder(getter.get()).create(
+			x, y, w, h, Component.literal(name), (button, value) -> {
+				setter.accept(value);
+				ConfigFile.save();
+			}
+		));
 
 		createButton(x + w + WIDGET_PADDING, y, RESET_BUTTON_WIDTH, h, "Reset", () -> {
-			booleanOption.setMessage(getBooleanText(name, defaultValue));
+			booleanOption.setValue(defaultValue);
 		});
 	}
 
-	private void createText(MatrixStack matrixStack, int x, int y, String text) {
-		drawString(matrixStack, this.font, text, x, y, 0xFFFFFF);
+	private void createText(int x, int y, String text) {
+		StringWidget stringWidget = new StringWidget(Component.literal(text), this.font);
+		stringWidget.setX(x); stringWidget.setY(y);
+
+		this.addRenderableWidget(stringWidget);
 	}
 
 	@Override
 	protected void init() {
 		super.init();
+
+		createText(x(this.font.width("Transformable Items Configuration")), TITLE_PADDING, "Transformable Items Configuration");
 
 		createSlider(x(), row(0, 7), WIDGET_WIDTH, WIDGET_HEIGHT, "X Scale", MIN_SCALE, MAX_SCALE, 
 		() -> ConfigFile.configData.xScale, value -> ConfigFile.configData.xScale = value, DEFAULT_SCALE);
@@ -151,14 +138,5 @@ public class ConfigScreen extends Screen {
 		() -> ConfigFile.configData.itemHeightAnimations, value -> ConfigFile.configData.itemHeightAnimations = value, true);
 
 		createButton(x(DONE_BUTTON_WIDTH), this.height - DONE_BUTTON_PADDING - WIDGET_HEIGHT, DONE_BUTTON_WIDTH, WIDGET_HEIGHT, "Done", this::onClose);
-	}
-
-	@Override
-	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTick) {
-		this.renderBackground(matrixStack);
-
-		createText(matrixStack, x(this.font.width("Transformable Items Configuration")), TITLE_PADDING, "Transformable Items Configuration");
-
-		super.render(matrixStack, mouseX, mouseY, partialTick);
 	}
 }

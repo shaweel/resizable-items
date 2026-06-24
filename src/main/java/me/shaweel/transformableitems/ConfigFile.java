@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import net.minecraft.client.Minecraft;
+import net.neoforged.fml.loading.FMLPaths;
 
 public class ConfigFile {
 	public static class ConfigData {
@@ -21,12 +22,12 @@ public class ConfigFile {
 	}
 
 	public static ConfigData configData = new ConfigData();
-	private static final Path FILE = Minecraft.getInstance().gameDirectory.toPath().resolve("config/transformableitems.json");
+	private static final Path FILE = FMLPaths.CONFIGDIR.get().resolve("transformableitems.json");
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
 	public static void save() {
 		try {
-			Files.write(FILE, GSON.toJson(configData).replace("  ", "\t").getBytes("UTF-8"));
+			Files.writeString(FILE, GSON.toJson(configData).replace("  ", "\t"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -35,7 +36,7 @@ public class ConfigFile {
 	public static void load() {
 		try {
 			if (!Files.exists(FILE)) return;
-			configData = GSON.fromJson(new String(Files.readAllBytes(FILE), "UTF-8"), ConfigData.class);
+			configData = GSON.fromJson(Files.readString(FILE), ConfigData.class);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
