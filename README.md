@@ -1,3 +1,5 @@
+# Distribution Warning
+This and the [Modrinth page](https://modrinth.com/mod/transformableitems) are the two **ONLY OFFICIAL SOURCES**. There will never be an official CurseForge page for the mod, because of how painful their user interface is to use and me personally not liking Overwolf as a company. Even though the license I use—the MIT License allows redistribution, I strongly advise you to only download Transformable Items from these two sources. If you do decide to download it through a different source, be extra careful and check the code to make sure it doesn't contain malware even on sites which review uploaded mods like CurseForge.
 # Transformable Items
 Lets you move and resize held items, with the additional option of disabling Item Height Animations(Held item moving up and down when switching items or attacking)
 ## Version Support
