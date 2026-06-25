@@ -1,8 +1,9 @@
 # Transformable Items
 Lets you move and resize held items, with the additional option of disabling Item Height Animations(Held item moving up and down when switching items or attacking)
+## Version Support
+I plan to support Fabric 1.14.1-latest, Forge 1.6.4-latest and NeoForge 1.20.1-latest. I might also implement Forge 1.5.2 depending on how hard setting up Mixin would be.
+Currently, Transformable Items is stable on Fabric 1.14.1-26.2, Forge 1.17.1-26.2 and NeoForge 1.20.1-26.2.
 ## Installation
-### Disclaimer
-Transformable Items is stable on Fabric 1.14.1-26.2. Forge support is experimental. Expect to see bugs when using the Forge version.
 1. Install your mod loader of choice
 2. Download the mod for your Minecraft version and mod loader of choice
 3. Move it into your `.minecraft/mods` directory.
