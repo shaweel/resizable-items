@@ -1,15 +1,14 @@
 package me.shaweel.transformableitems;
 
-import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+import net.neoforged.neoforge.client.ConfigScreenHandler.ConfigScreenFactory;
 
-@Mod(value = "transformableitems", dist = Dist.CLIENT)
+@Mod(value = "transformableitems")
 public class TransformableItems {
 	public TransformableItems(ModContainer container) {
 		ConfigFile.load();
 
-		container.registerExtensionPoint(IConfigScreenFactory.class, (client, parent) -> new ConfigScreen());
+		container.registerExtensionPoint(ConfigScreenFactory.class, () -> new ConfigScreenFactory((client, parent) -> new ConfigScreen()));
 	}
 }

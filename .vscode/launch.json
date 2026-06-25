@@ -19,7 +19,9 @@
         "-Dfml.modFolders\u003dtransformableitems%%/home/shaweel/Code/transformableitems/bin/main"
       ],
       "cwd": "${workspaceFolder}/run",
-      "env": {},
+      "env": {
+        "MOD_CLASSES": "transformableitems%%/home/shaweel/Code/transformableitems/bin/main"
+      },
       "console": "internalConsole",
       "shortenCommandLine": "none"
     }
