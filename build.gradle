@@ -1,8 +1,7 @@
 plugins {
 	id 'java-library'
 	id 'maven-publish'
-	id 'net.neoforged.moddev' version '2.0.141'
-	id 'idea'
+	id 'net.neoforged.gradle.userdev' version '7.1.38'
 }
 
 tasks.named('wrapper', Wrapper).configure {
@@ -27,27 +26,18 @@ base {
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
-neoForge {
-	version = project.neo_version
+runs {
+	configureEach {
+		systemProperty 'forge.logging.markers', 'REGISTRIES'
+		systemProperty 'forge.logging.console.level', 'debug'
 
-	runs {
-		client {
-			client()
+		workingDirectory project.layout.projectDirectory.dir('run').dir(name)
 
-			systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-		}
-
-		configureEach {
-			systemProperty 'forge.logging.markers', 'REGISTRIES'
-
-			logLevel = org.slf4j.event.Level.DEBUG
-		}
+		modSource project.sourceSets.main
 	}
 
-	mods {
-		"${mod_id}" {
-			sourceSet(sourceSets.main)
-		}
+	client {
+		systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
 	}
 }
 
@@ -55,26 +45,39 @@ configurations {
 	runtimeClasspath.extendsFrom localRuntime
 }
 
-dependencies {}
-
-var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
-	var replaceProperties = [
-			minecraft_version      : minecraft_version,
-			minecraft_version_range: minecraft_version_range,
-			neo_version            : neo_version,
-			mod_id                 : mod_id,
-			mod_name               : mod_name,
-			mod_license            : mod_license,
-			mod_version            : mod_version,
-	]
-	inputs.properties replaceProperties
-	expand replaceProperties
-	from "src/main/templates"
-	into "build/generated/sources/modMetadata"
+dependencies {
+	implementation "net.neoforged:neoforge:${neo_version}"
 }
 
-sourceSets.main.resources.srcDir generateModMetadata
-neoForge.ideSyncTask generateModMetadata
+tasks.withType(ProcessResources).configureEach {
+	var replaceProperties = [
+		minecraft_version      : minecraft_version,
+		minecraft_version_range: minecraft_version_range,
+		neo_version            : neo_version,
+		mod_id                 : mod_id,
+		mod_name               : mod_name,
+		mod_license            : mod_license,
+		mod_version            : mod_version,
+	]
+	inputs.properties replaceProperties
+
+	filesMatching(['META-INF/mods.toml']) {
+	expand replaceProperties
+	}
+}
+
+publishing {
+	publications {
+	register('mavenJava', MavenPublication) {
+		from components.java
+	}
+	}
+	repositories {
+	maven {
+		url "file://${project.projectDir}/repo"
+	}
+	}
+}
 
 tasks.withType(JavaCompile).configureEach {
 	options.encoding = 'UTF-8'

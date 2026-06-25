@@ -21,6 +21,7 @@ type="required"
 versionRange="[0,)"
 ordering="NONE"
 side="BOTH"
+mandatory=true
 
 [[dependencies.${mod_id}]]
 modId="minecraft"
@@ -28,4 +29,4 @@ type="required"
 versionRange="${minecraft_version_range}"
 ordering="NONE"
 side="BOTH"
-
+mandatory=true
