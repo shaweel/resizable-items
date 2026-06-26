@@ -115,6 +115,7 @@ public class ConfigScreen extends Screen {
 		}));
 
 		createButton(x + w + WIDGET_PADDING, y, RESET_BUTTON_WIDTH, h, "Reset", () -> {
+			setter.accept(defaultValue);
 			booleanOption.setMessage(getBooleanText(name, defaultValue));
 		});
 	}
