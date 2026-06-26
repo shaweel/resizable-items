@@ -3,8 +3,6 @@ package me.shaweel.transformableitems;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.AbstractSlider;
@@ -62,46 +60,42 @@ public class ConfigScreen extends Screen {
 	}
 
 	private void createButton(int x, int y, int w, int h, String name, Runnable action) {
-		this.addButton(new Button(x, y, w, h, new StringTextComponent(name), button -> action.run()));
+		this.addButton(new Button(x, y, w, h, name, button -> action.run()));
 	}
 
 	private void createSlider(int x, int y, int w, int h, String name, double min, double max, Supplier<Float> getter, Consumer<Float> setter, Float defaultValue) {
-		this.addButton(new AbstractSlider(x, y, w, h, new StringTextComponent(name), normalize(min, max, getter.get())) {
+		this.addButton(new AbstractSlider(x, y, w, h, normalize(min, max, getter.get())) {
 			{
-				func_230979_b_();
+				updateMessage();
 				createButton(x + w + WIDGET_PADDING, y, RESET_BUTTON_WIDTH, h, "Reset", () -> {
 					this.resetValue();
 				});
 			}
 			
 			public void resetValue() {
-				double oldValue = this.field_230683_b_;
+				double oldValue = this.value;
 				double newValue = (defaultValue - min) / (max - min);
-				this.field_230683_b_ = MathHelper.clamp(newValue, (double)0.0F, (double)1.0F);
-				if (oldValue != this.field_230683_b_) {
-					this.func_230979_b_();
+				this.value = MathHelper.clamp(newValue, (double)0.0F, (double)1.0F);
+				if (oldValue != this.value) {
+					this.updateMessage();
 				}
 
-				this.func_230972_a_();
+				this.applyValue();
 			}
 
 			@Override
-			protected void func_230979_b_() {
-			setMessage(new StringTextComponent(
-				String.format("%s: %.2f", name, denormalize(min, max, this.field_230683_b_))
-			));
-			}
+			protected void updateMessage() { setMessage(String.format("%s: %.2f", name, denormalize(min, max, this.value))); }
 
 			@Override
-			protected void func_230972_a_() {
-				setter.accept(Math.round(denormalize(min, max, this.field_230683_b_) * 100f) / 100f);
+			protected void applyValue() {
+				setter.accept(Math.round(denormalize(min, max, this.value) * 100f) / 100f);
 				ConfigFile.save();
 			}
 		});
 	}
 
-	private StringTextComponent getBooleanText(String name, boolean value) {
-		return new StringTextComponent(String.format("%s: %s", name, value ? "ON" : "OFF"));
+	private String getBooleanText(String name, boolean value) {
+		return String.format("%s: %s", name, value ? "ON" : "OFF");
 	}
 
 	private void createBooleanOption(int x, int y, int w, int h, String name, Supplier<Boolean> getter, Consumer<Boolean> setter, Boolean defaultValue) {
@@ -120,8 +114,8 @@ public class ConfigScreen extends Screen {
 		});
 	}
 
-	private void createText(MatrixStack matrixStack, int x, int y, String text) {
-		drawString(matrixStack, this.font, text, x, y, 0xFFFFFF);
+	private void createText(int x, int y, String text) {
+		drawString(this.font, text, x, y, 0xFFFFFF);
 	}
 
 	@Override
@@ -151,16 +145,15 @@ public class ConfigScreen extends Screen {
 		createBooleanOption(x(), row(6, 7), WIDGET_WIDTH, WIDGET_HEIGHT, "Item Height Animations",
 		() -> ConfigFile.configData.itemHeightAnimations, value -> ConfigFile.configData.itemHeightAnimations = value, true);
 
-		createButton(x(DONE_BUTTON_WIDTH), this.height - DONE_BUTTON_PADDING - WIDGET_HEIGHT, DONE_BUTTON_WIDTH, WIDGET_HEIGHT, "Done", this::closeScreen);
+		createButton(x(DONE_BUTTON_WIDTH), this.height - DONE_BUTTON_PADDING - WIDGET_HEIGHT, DONE_BUTTON_WIDTH, WIDGET_HEIGHT, "Done", this::onClose);
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTick) {
-		this.renderBackground(matrixStack);
+	public void render(int mouseX, int mouseY, float partialTick) {
+		this.renderBackground();
 
-		createText(matrixStack, x(this.font.getStringWidth("Transformable Items Configuration")), TITLE_PADDING, "Transformable Items Configuration");
+		createText(x(this.font.getStringWidth("Transformable Items Configuration")), TITLE_PADDING, "Transformable Items Configuration");
 
-		super.render(matrixStack, mouseX, mouseY, partialTick);
+		super.render(mouseX, mouseY, partialTick);
 	}
 }
-	
