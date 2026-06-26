@@ -31,7 +31,6 @@ minecraft {
 
 			systemProperty "eventbus.api.strictRuntimeChecks", "true"
 			systemProperty "forge.enabledGameTestNamespaces", "transformableitems"
-			args "--mixin.config=transformableitems.mixins.json"
 		}
 
 		register("client") {}
