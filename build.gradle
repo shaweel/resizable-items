@@ -23,7 +23,7 @@ renamer.classes(tasks.named('jar', Jar)) {
 sourceSets.main.resources { srcDir "src/generated/resources" }
 
 minecraft {
-	mappings channel: 'snapshot', version: '20210309-1.16.5'
+	mappings channel: 'snapshot', version: "${project.mcp_version}-${project.minecraft_version}"
 
 	runs {
 		configureEach {

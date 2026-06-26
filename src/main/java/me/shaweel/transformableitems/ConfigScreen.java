@@ -75,10 +75,10 @@ public class ConfigScreen extends Screen {
 			}
 			
 			public void resetValue() {
-				double oldValue = this.sliderValue;
+				double oldValue = this.field_230683_b_;
 				double newValue = (defaultValue - min) / (max - min);
-				this.sliderValue = MathHelper.clamp(newValue, (double)0.0F, (double)1.0F);
-				if (oldValue != this.sliderValue) {
+				this.field_230683_b_ = MathHelper.clamp(newValue, (double)0.0F, (double)1.0F);
+				if (oldValue != this.field_230683_b_) {
 					this.func_230979_b_();
 				}
 
@@ -88,13 +88,13 @@ public class ConfigScreen extends Screen {
 			@Override
 			protected void func_230979_b_() {
 			setMessage(new StringTextComponent(
-				String.format("%s: %.2f", name, denormalize(min, max, this.sliderValue))
+				String.format("%s: %.2f", name, denormalize(min, max, this.field_230683_b_))
 			));
 			}
 
 			@Override
 			protected void func_230972_a_() {
-				setter.accept(Math.round(denormalize(min, max, this.sliderValue) * 100f) / 100f);
+				setter.accept(Math.round(denormalize(min, max, this.field_230683_b_) * 100f) / 100f);
 				ConfigFile.save();
 			}
 		});

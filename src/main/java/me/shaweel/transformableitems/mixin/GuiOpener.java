@@ -11,7 +11,7 @@ import net.minecraft.client.Minecraft;
 
 @Mixin(Minecraft.class)
 public class GuiOpener {
-	@Inject(method = "tick", at = @At("TAIL"))
+	@Inject(method = "runTick", at = @At("TAIL"))
 	private void onTick(CallbackInfo callbackInfo) {
 		Minecraft client = Minecraft.getInstance();
 
