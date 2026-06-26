@@ -1,7 +1,7 @@
 modLoader="javafml"
 loaderVersion="[0,)"
 license="MIT"
-eclientSideOnly=true
+clientSideOnly=true
 
 [[mods]]
 modId="transformableitems"
