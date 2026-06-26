@@ -23,6 +23,8 @@ renamer.classes(tasks.named('jar', Jar)) {
 sourceSets.main.resources { srcDir "src/generated/resources" }
 
 minecraft {
+	mappings channel: 'snapshot', version: '20210309-1.16.5'
+
 	runs {
 		configureEach {
 			workingDir = layout.projectDirectory.dir("run")
@@ -30,15 +32,9 @@ minecraft {
 			systemProperty "eventbus.api.strictRuntimeChecks", "true"
 			systemProperty "forge.enabledGameTestNamespaces", "transformableitems"
 			args "--mixin.config=transformableitems.mixins.json"
-
-			jvmArgs(
-				"--add-exports=cpw.mods.bootstraplauncher/cpw.mods.bootstraplauncher=ALL-UNNAMED",
-				"--add-opens=cpw.mods.bootstraplauncher/cpw.mods.bootstraplauncher=ALL-UNNAMED",
-				"--add-opens=java.base/java.lang.invoke=ALL-UNNAMED"
-			)
 		}
 
-		register("client")
+		register("client") {}
 	}
 }
 

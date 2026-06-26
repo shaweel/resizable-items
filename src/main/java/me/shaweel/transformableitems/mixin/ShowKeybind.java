@@ -11,14 +11,14 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import me.shaweel.transformableitems.ModKeybinds;
-import net.minecraft.client.KeyMapping;
-import net.minecraft.client.Options;
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.client.GameSettings;
 
-@Mixin(Options.class)
+@Mixin(GameSettings.class)
 public class ShowKeybind {
-	@Mutable @Shadow public KeyMapping[] keyMappings;
+	@Mutable @Shadow public KeyBinding[] keyBindings;
 
-	@Inject(method = "load", at = @At("HEAD"))
+	@Inject(method = "loadOptions", at = @At("HEAD"))
 	private void addKeybind(CallbackInfo callbackInfo) {
 		if (ModKeybinds.OPEN_CONFIG_KEYBIND != null) return;
 
@@ -30,6 +30,6 @@ public class ShowKeybind {
 
 		sortOrder.put("key.categories.transformableitems", smallestAvailable);
 		ModKeybinds.initialize();
-		keyMappings = ArrayUtils.add(keyMappings, ModKeybinds.OPEN_CONFIG_KEYBIND);
+		keyBindings = ArrayUtils.add(keyBindings, ModKeybinds.OPEN_CONFIG_KEYBIND);
 	}
 }

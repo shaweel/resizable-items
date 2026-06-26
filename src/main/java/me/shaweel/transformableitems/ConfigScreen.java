@@ -34,7 +34,7 @@ public class ConfigScreen extends Screen {
 	}
 
 	private int row(int index, int rowAmount) {
-		int headerSpace = TITLE_PADDING + this.font.lineHeight;
+		int headerSpace = TITLE_PADDING + this.font.FONT_HEIGHT;
 		int footerSpace = DONE_BUTTON_PADDING + WIDGET_HEIGHT;
 
 		int allWidgetsHeight = rowAmount * WIDGET_HEIGHT + (rowAmount - 1) * WIDGET_PADDING;
@@ -68,33 +68,33 @@ public class ConfigScreen extends Screen {
 	private void createSlider(int x, int y, int w, int h, String name, double min, double max, Supplier<Float> getter, Consumer<Float> setter, Float defaultValue) {
 		this.addButton(new AbstractSlider(x, y, w, h, new StringTextComponent(name), normalize(min, max, getter.get())) {
 			{
-				updateMessage();
+				func_230979_b_();
 				createButton(x + w + WIDGET_PADDING, y, RESET_BUTTON_WIDTH, h, "Reset", () -> {
 					this.resetValue();
 				});
 			}
 			
 			public void resetValue() {
-				double oldValue = this.value;
+				double oldValue = this.sliderValue;
 				double newValue = (defaultValue - min) / (max - min);
-				this.value = MathHelper.clamp(newValue, (double)0.0F, (double)1.0F);
-				if (oldValue != this.value) {
-					this.applyValue();
+				this.sliderValue = MathHelper.clamp(newValue, (double)0.0F, (double)1.0F);
+				if (oldValue != this.sliderValue) {
+					this.func_230979_b_();
 				}
 
-				this.updateMessage();
+				this.func_230972_a_();
 			}
 
 			@Override
-			protected void updateMessage() {
+			protected void func_230979_b_() {
 			setMessage(new StringTextComponent(
-				String.format("%s: %.2f", name, denormalize(min, max, this.value))
+				String.format("%s: %.2f", name, denormalize(min, max, this.sliderValue))
 			));
 			}
 
 			@Override
-			protected void applyValue() {
-				setter.accept(Math.round(denormalize(min, max, this.value) * 100f) / 100f);
+			protected void func_230972_a_() {
+				setter.accept(Math.round(denormalize(min, max, this.sliderValue) * 100f) / 100f);
 				ConfigFile.save();
 			}
 		});
@@ -115,6 +115,7 @@ public class ConfigScreen extends Screen {
 		}));
 
 		createButton(x + w + WIDGET_PADDING, y, RESET_BUTTON_WIDTH, h, "Reset", () -> {
+			setter.accept(defaultValue);
 			booleanOption.setMessage(getBooleanText(name, defaultValue));
 		});
 	}
@@ -150,15 +151,16 @@ public class ConfigScreen extends Screen {
 		createBooleanOption(x(), row(6, 7), WIDGET_WIDTH, WIDGET_HEIGHT, "Item Height Animations",
 		() -> ConfigFile.configData.itemHeightAnimations, value -> ConfigFile.configData.itemHeightAnimations = value, true);
 
-		createButton(x(DONE_BUTTON_WIDTH), this.height - DONE_BUTTON_PADDING - WIDGET_HEIGHT, DONE_BUTTON_WIDTH, WIDGET_HEIGHT, "Done", this::onClose);
+		createButton(x(DONE_BUTTON_WIDTH), this.height - DONE_BUTTON_PADDING - WIDGET_HEIGHT, DONE_BUTTON_WIDTH, WIDGET_HEIGHT, "Done", this::closeScreen);
 	}
 
 	@Override
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTick) {
 		this.renderBackground(matrixStack);
 
-		createText(matrixStack, x(this.font.width("Transformable Items Configuration")), TITLE_PADDING, "Transformable Items Configuration");
+		createText(matrixStack, x(this.font.getStringWidth("Transformable Items Configuration")), TITLE_PADDING, "Transformable Items Configuration");
 
 		super.render(matrixStack, mouseX, mouseY, partialTick);
 	}
 }
+	

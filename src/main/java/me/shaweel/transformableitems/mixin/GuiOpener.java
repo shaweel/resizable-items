@@ -15,7 +15,7 @@ public class GuiOpener {
 	private void onTick(CallbackInfo callbackInfo) {
 		Minecraft client = Minecraft.getInstance();
 
-		if (ModKeybinds.OPEN_CONFIG_KEYBIND == null || !ModKeybinds.OPEN_CONFIG_KEYBIND.consumeClick() || client.screen != null) return;
-		client.setScreen(new ConfigScreen());
+		if (ModKeybinds.OPEN_CONFIG_KEYBIND == null || !ModKeybinds.OPEN_CONFIG_KEYBIND.isPressed() || client.currentScreen != null) return;
+		client.displayGuiScreen(new ConfigScreen());
 	}
 }
