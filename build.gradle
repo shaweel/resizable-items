@@ -11,6 +11,10 @@ group = "me.shaweel.transformableitems"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
+renamer.classes(tasks.named('jar', Jar)) {
+	archiveClassifier = 'srg'
+}
+
 sourceSets.main.resources { srcDir "src/generated/resources" }
 
 minecraft {
