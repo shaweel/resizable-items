@@ -3,7 +3,7 @@ plugins {
 	id "idea"
 	id "eclipse"
 	id "net.minecraftforge.gradle" version "${forgegradle_version}"
-	id 'net.minecraftforge.renamer' version '1.0.14'
+	id "net.minecraftforge.renamer" version "1.0.14"
 }
 
 version = mod_version
@@ -15,15 +15,17 @@ renamer.enableMixinRefmaps {
 	config "transformableitems.mixins.json"
 }
 
-renamer.classes(tasks.named('jar', Jar)) {
-	archiveClassifier = 'srg'
+renamer.classes(tasks.named("jar", Jar)) {
+	archiveClassifier = "srg"
 	mappings renamer.mixin.generatedMappings
 }
 
 sourceSets.main.resources { srcDir "src/generated/resources" }
 
 minecraft {
-	mappings channel: 'snapshot', version: "${project.mcp_version}"
+	accessTransformer = true
+
+	mappings channel: "snapshot", version: "${project.mcp_version}"
 
 	runs {
 		configureEach {
@@ -46,9 +48,6 @@ repositories {
 
 dependencies {
 	implementation minecraft.dependency("net.minecraftforge:forge:${minecraft_version}-${forge_version}")
-	implementation 'org.spongepowered:mixin:0.8.7'
-
-	annotationProcessor 'org.spongepowered:mixin:0.8.7:processor'
 }
 
 renamer.mappings(minecraft.dependency.toSrg)
