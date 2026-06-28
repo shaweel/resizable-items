@@ -59,7 +59,6 @@ public class TransformableItems implements IBakedModel {
 
 	@Override
 	public Pair<? extends IBakedModel, Matrix4f> handlePerspective(TransformType type) {
-		System.out.println("faaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaah");
 		Pair<? extends IBakedModel, Matrix4f> pair = parent.handlePerspective(type);
 		if (type != TransformType.FIRST_PERSON_LEFT_HAND && type != TransformType.FIRST_PERSON_RIGHT_HAND) return pair;
 
