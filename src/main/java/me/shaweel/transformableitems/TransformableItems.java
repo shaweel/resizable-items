@@ -3,20 +3,21 @@ package me.shaweel.transformableitems;
 import java.util.List;
 import java.util.Random;
 
+import javax.annotation.Nullable;
 import javax.vecmath.Matrix4f;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import net.minecraft.block.BlockState;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.model.BakedQuad;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.model.ItemOverrideList;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.util.Direction;
+import net.minecraft.util.EnumFacing;
 
-import static com.mojang.blaze3d.platform.GlStateManager.translated;
-import static com.mojang.blaze3d.platform.GlStateManager.scalef;
+import static net.minecraft.client.renderer.GlStateManager.translated;
+import static net.minecraft.client.renderer.GlStateManager.scalef;
 
 public class TransformableItems implements IBakedModel {
 	private final IBakedModel parent;
@@ -27,7 +28,7 @@ public class TransformableItems implements IBakedModel {
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public List<BakedQuad> getQuads(BlockState state, Direction side, Random rand) {
+	public List<BakedQuad> getQuads(@Nullable IBlockState state, @Nullable EnumFacing side, Random rand) {
 		return parent.getQuads(state, side, rand);
 	}
 
@@ -46,7 +47,6 @@ public class TransformableItems implements IBakedModel {
 		return parent.isBuiltInRenderer();
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public TextureAtlasSprite getParticleTexture() {
 		return parent.getParticleTexture();
@@ -59,11 +59,11 @@ public class TransformableItems implements IBakedModel {
 
 	@Override
 	public Pair<? extends IBakedModel, Matrix4f> handlePerspective(TransformType type) {
+		System.out.println("faaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaah");
 		Pair<? extends IBakedModel, Matrix4f> pair = parent.handlePerspective(type);
 		if (type != TransformType.FIRST_PERSON_LEFT_HAND && type != TransformType.FIRST_PERSON_RIGHT_HAND) return pair;
 
 		float x = type == TransformType.FIRST_PERSON_RIGHT_HAND ? ConfigFile.configData.xOffset * -1 : ConfigFile.configData.xOffset;
-
 		translated(x, ConfigFile.configData.yOffset, ConfigFile.configData.zOffset);
 		scalef(ConfigFile.configData.xScale, ConfigFile.configData.yScale, ConfigFile.configData.zScale);
 		return pair;

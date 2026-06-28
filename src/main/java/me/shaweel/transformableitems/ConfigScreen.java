@@ -3,13 +3,10 @@ package me.shaweel.transformableitems;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.gui.widget.AbstractSlider;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
 
-public class ConfigScreen extends Screen { 
+public class ConfigScreen extends GuiScreen { 
 	public enum OptionTypes { FLOAT_SLIDER, BOOLEAN_OPTION }
 	public static final int DONE_BUTTON_PADDING = 7;
 	public static final int TITLE_PADDING = 12;
@@ -19,20 +16,18 @@ public class ConfigScreen extends Screen {
 	public static final int WIDGET_HEIGHT = 20;
 	public static final int WIDGET_PADDING = 4;
 
-	public static final double MIN_SCALE = 0;
-	public static final double MAX_SCALE = 2;
-	public static final double MIN_OFFSET = -1;
-	public static final double MAX_OFFSET = 1;
+	public static final float MIN_SCALE = 0;
+	public static final float MAX_SCALE = 2;
+	public static final float MIN_OFFSET = -1;
+	public static final float MAX_OFFSET = 1;
 
 	public static final float DEFAULT_SCALE = 1f;
 	public static final float DEFAULT_OFFSET = 0f;
 	
-	public ConfigScreen() {
-		super(new StringTextComponent("ConfigScreen"));
-	}
+	private int currentId = 0;
 
 	private int row(int index, int rowAmount) {
-		int headerSpace = TITLE_PADDING + this.font.FONT_HEIGHT;
+		int headerSpace = TITLE_PADDING + this.fontRenderer.FONT_HEIGHT;
 		int footerSpace = DONE_BUTTON_PADDING + WIDGET_HEIGHT;
 
 		int allWidgetsHeight = rowAmount * WIDGET_HEIGHT + (rowAmount - 1) * WIDGET_PADDING;
@@ -51,46 +46,36 @@ public class ConfigScreen extends Screen {
 		return this.width / 2 - w / 2;
 	}
 
-	private float denormalize(double min, double max, double x) {
+	private float denormalize(float min, float max, float x) {
 		return (float)(min + x * (max - min));
 	}
 
-	private double normalize(double min, double max, float x) {
-		return (double)(x - min) / (max - min);
+	private float normalize(float min, float max, float x) {
+		return (x - min) / (max - min);
 	}
 
 	private void createButton(int x, int y, int w, int h, String name, Runnable action) {
-		this.addButton(new Button(x, y, w, h, name, button -> action.run()));
+		this.addButton(new GuiButton(this.currentId, x, y, w, h, name) {
+			@Override
+			public void onClick(double mouseX, double mouseY) {
+				action.run();
+			}
+		});
+		this.currentId++;
 	}
 
-	private void createSlider(int x, int y, int w, int h, String name, double min, double max, Supplier<Float> getter, Consumer<Float> setter, Float defaultValue) {
-		this.addButton(new AbstractSlider(x, y, w, h, normalize(min, max, getter.get())) {
-			{
-				updateMessage();
-				createButton(x + w + WIDGET_PADDING, y, RESET_BUTTON_WIDTH, h, "Reset", () -> {
-					this.resetValue();
-				});
-			}
+	private void createSlider(int x, int y, int w, int h, String name, float min, float max, Supplier<Float> getter, Consumer<Float> setter, Float defaultValue) {
+		Slider slider = this.addButton(new Slider(this.currentId, x, y, w, h, name, normalize(min, max, getter.get()), value -> {
+			float denormalized = Math.round(denormalize(min, max, value) * 100f) / 100f;
 			
-			public void resetValue() {
-				double oldValue = this.value;
-				double newValue = (defaultValue - min) / (max - min);
-				this.value = MathHelper.clamp(newValue, (double)0.0F, (double)1.0F);
-				if (oldValue != this.value) {
-					this.updateMessage();
-				}
+			setter.accept(denormalized);
+			ConfigFile.save();
+			return String.format("%.2f", denormalized);
+		}));
+		this.currentId++;
 
-				this.applyValue();
-			}
-
-			@Override
-			protected void updateMessage() { setMessage(String.format("%s: %.2f", name, denormalize(min, max, this.value))); }
-
-			@Override
-			protected void applyValue() {
-				setter.accept(Math.round(denormalize(min, max, this.value) * 100f) / 100f);
-				ConfigFile.save();
-			}
+		createButton(x + w + WIDGET_PADDING, y, RESET_BUTTON_WIDTH, h, "Reset", () -> {
+			slider.changeValue(normalize(min, max, defaultValue));
 		});
 	}
 
@@ -99,28 +84,35 @@ public class ConfigScreen extends Screen {
 	}
 
 	private void createBooleanOption(int x, int y, int w, int h, String name, Supplier<Boolean> getter, Consumer<Boolean> setter, Boolean defaultValue) {
-		Button booleanOption = this.addButton(new Button(x, y, w, h, getBooleanText(name, getter.get()), button -> {
-			boolean newValue = !getter.get();
-			setter.accept(newValue);
+		GuiButton booleanOption = this.addButton(new GuiButton(this.currentId, x, y, w, h, getBooleanText(name, getter.get())) {
+			@Override
+			public void onClick(double mouseX, double mouseY) {
+				boolean newValue = !getter.get();
+				setter.accept(newValue);
 
-			button.setMessage(getBooleanText(name, newValue));
+				this.displayString = getBooleanText(name, newValue);
 
-			ConfigFile.save();
-		}));
+				ConfigFile.save();
+			}
+		});
+		this.currentId++;
 
 		createButton(x + w + WIDGET_PADDING, y, RESET_BUTTON_WIDTH, h, "Reset", () -> {
 			setter.accept(defaultValue);
-			booleanOption.setMessage(getBooleanText(name, defaultValue));
+			ConfigFile.save();
+			booleanOption.displayString = getBooleanText(name, defaultValue);
 		});
 	}
 
 	private void createText(int x, int y, String text) {
-		drawString(this.font, text, x, y, 0xFFFFFF);
+		drawString(this.fontRenderer, text, x, y, 0xFFFFFF);
 	}
 
 	@Override
-	protected void init() {
-		super.init();
+	public void initGui() {
+		super.initGui();
+
+		this.currentId = 0;
 
 		createSlider(x(), row(0, 7), WIDGET_WIDTH, WIDGET_HEIGHT, "X Scale", MIN_SCALE, MAX_SCALE, 
 		() -> ConfigFile.configData.xScale, value -> ConfigFile.configData.xScale = value, DEFAULT_SCALE);
@@ -145,14 +137,14 @@ public class ConfigScreen extends Screen {
 		createBooleanOption(x(), row(6, 7), WIDGET_WIDTH, WIDGET_HEIGHT, "Item Height Animations",
 		() -> ConfigFile.configData.itemHeightAnimations, value -> ConfigFile.configData.itemHeightAnimations = value, true);
 
-		createButton(x(DONE_BUTTON_WIDTH), this.height - DONE_BUTTON_PADDING - WIDGET_HEIGHT, DONE_BUTTON_WIDTH, WIDGET_HEIGHT, "Done", this::onClose);
+		createButton(x(DONE_BUTTON_WIDTH), this.height - DONE_BUTTON_PADDING - WIDGET_HEIGHT, DONE_BUTTON_WIDTH, WIDGET_HEIGHT, "Done", this::close);
 	}
 
 	@Override
 	public void render(int mouseX, int mouseY, float partialTick) {
-		this.renderBackground();
+		this.drawDefaultBackground();
 
-		createText(x(this.font.getStringWidth("Transformable Items Configuration")), TITLE_PADDING, "Transformable Items Configuration");
+		createText(x(this.fontRenderer.getStringWidth("Transformable Items Configuration")), TITLE_PADDING, "Transformable Items Configuration");
 
 		super.render(mouseX, mouseY, partialTick);
 	}
