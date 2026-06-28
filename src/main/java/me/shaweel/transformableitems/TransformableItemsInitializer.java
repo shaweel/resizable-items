@@ -12,7 +12,7 @@ public class TransformableItemsInitializer {
 		ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () -> (client, parent) -> new ConfigScreen());
 		MinecraftForge.EVENT_BUS.register(ModKeybinds.class);
 		MinecraftForge.EVENT_BUS.register(ItemHeightAnimations.class);
-		MinecraftForge.EVENT_BUS.addListener(ModelBake::onModelBake);
+		MinecraftForge.EVENT_BUS.register(ModelBake.class);
 		ModKeybinds.initialize();
 	}
 }
