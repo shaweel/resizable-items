@@ -1,19 +1,19 @@
 package me.shaweel.transformableitems;
 
-import java.util.Map;
-
-import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.util.registry.IRegistry;
 import net.minecraftforge.client.event.ModelBakeEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ModelBake {
+	@SubscribeEvent
 	public static void onModelBake(ModelBakeEvent event) {
-		System.out.println("ModelBakeEvent fired");
-		Map<ModelResourceLocation, IBakedModel> registry = event.getModelRegistry();
+		IRegistry<ModelResourceLocation, IBakedModel> registry = event.getModelRegistry();
 
-		for (Map.Entry<ModelResourceLocation, IBakedModel> entry : registry.entrySet()) {
-			IBakedModel original = entry.getValue();
-			entry.setValue(new TransformableItems(original));
+		for (ModelResourceLocation key : registry.getKeys()) {
+			IBakedModel original = registry.getObject(key);
+			registry.putObject(key, new TransformableItems(original));
 		}
 	}
 }

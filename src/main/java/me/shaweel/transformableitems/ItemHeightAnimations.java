@@ -1,22 +1,21 @@
 package me.shaweel.transformableitems;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.FirstPersonRenderer;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class ItemHeightAnimations {
 	@SubscribeEvent
 	public static void clientTick(TickEvent.ClientTickEvent event) {
 		if (event.phase != TickEvent.Phase.END || ConfigFile.configData.itemHeightAnimations) return;
-
-		FirstPersonRenderer firstPersonRenderer = Minecraft.getInstance().getFirstPersonRenderer();
-		firstPersonRenderer.equippedProgressMainHand = 1f;
-		firstPersonRenderer.equippedProgressOffHand = 1f;
-		firstPersonRenderer.prevEquippedProgressMainHand = 1f;
-		firstPersonRenderer.prevEquippedProgressOffHand = 1f;
-		if (Minecraft.getInstance().player == null) return;
-		firstPersonRenderer.itemStackMainHand = Minecraft.getInstance().player.getHeldItemMainhand();
-		firstPersonRenderer.itemStackOffHand = Minecraft.getInstance().player.getHeldItemOffhand();
+		ItemRenderer itemRenderer = Minecraft.getMinecraft().getItemRenderer();
+		itemRenderer.equippedProgressMainHand = 1f;
+		itemRenderer.equippedProgressOffHand = 1f;
+		itemRenderer.prevEquippedProgressMainHand = 1f;
+		itemRenderer.prevEquippedProgressOffHand = 1f;
+		if (Minecraft.getMinecraft().player == null) return;
+		itemRenderer.itemStackMainHand = Minecraft.getMinecraft().player.getHeldItemMainhand();
+		itemRenderer.itemStackOffHand = Minecraft.getMinecraft().player.getHeldItemOffhand();
 	}
 }

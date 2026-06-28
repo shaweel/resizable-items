@@ -3,6 +3,7 @@ package me.shaweel.transformableitems;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 
@@ -12,7 +13,7 @@ public class ConfigScreen extends GuiScreen {
 	public static final int TITLE_PADDING = 12;
 	public static final int RESET_BUTTON_WIDTH = 50;
 	public static final int DONE_BUTTON_WIDTH = 200;
-	public static final int WIDGET_WIDTH = 150;
+	public static final int WIDGET_WIDTH = 208;
 	public static final int WIDGET_HEIGHT = 20;
 	public static final int WIDGET_PADDING = 4;
 
@@ -57,8 +58,10 @@ public class ConfigScreen extends GuiScreen {
 	private void createButton(int x, int y, int w, int h, String name, Runnable action) {
 		this.addButton(new GuiButton(this.currentId, x, y, w, h, name) {
 			@Override
-			public void onClick(double mouseX, double mouseY) {
+			public boolean mousePressed(Minecraft client, int mouseX, int mouseY) {
+				if (!super.mousePressed(client, mouseX, mouseY)) return false;
 				action.run();
+				return true;
 			}
 		});
 		this.currentId++;
@@ -86,13 +89,16 @@ public class ConfigScreen extends GuiScreen {
 	private void createBooleanOption(int x, int y, int w, int h, String name, Supplier<Boolean> getter, Consumer<Boolean> setter, Boolean defaultValue) {
 		GuiButton booleanOption = this.addButton(new GuiButton(this.currentId, x, y, w, h, getBooleanText(name, getter.get())) {
 			@Override
-			public void onClick(double mouseX, double mouseY) {
+			public boolean mousePressed(Minecraft client, int mouseX, int mouseY) {
+				if (!super.mousePressed(client, mouseX, mouseY)) return false;
+
 				boolean newValue = !getter.get();
 				setter.accept(newValue);
 
 				this.displayString = getBooleanText(name, newValue);
 
 				ConfigFile.save();
+				return true;
 			}
 		});
 		this.currentId++;
@@ -137,15 +143,16 @@ public class ConfigScreen extends GuiScreen {
 		createBooleanOption(x(), row(6, 7), WIDGET_WIDTH, WIDGET_HEIGHT, "Item Height Animations",
 		() -> ConfigFile.configData.itemHeightAnimations, value -> ConfigFile.configData.itemHeightAnimations = value, true);
 
-		createButton(x(DONE_BUTTON_WIDTH), this.height - DONE_BUTTON_PADDING - WIDGET_HEIGHT, DONE_BUTTON_WIDTH, WIDGET_HEIGHT, "Done", this::close);
+		createButton(x(DONE_BUTTON_WIDTH), this.height - DONE_BUTTON_PADDING - WIDGET_HEIGHT, DONE_BUTTON_WIDTH, WIDGET_HEIGHT, "Done", 
+		() -> this.mc.displayGuiScreen(null));
 	}
 
 	@Override
-	public void render(int mouseX, int mouseY, float partialTick) {
+	public void drawScreen(int mouseX, int mouseY, float partialTick) {
 		this.drawDefaultBackground();
 
 		createText(x(this.fontRenderer.getStringWidth("Transformable Items Configuration")), TITLE_PADDING, "Transformable Items Configuration");
 
-		super.render(mouseX, mouseY, partialTick);
+		super.drawScreen(mouseX, mouseY, partialTick);
 	}
 }

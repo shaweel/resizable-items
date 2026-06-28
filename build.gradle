@@ -50,3 +50,9 @@ renamer.mappings(minecraft.dependency.toSrg)
 tasks.withType(JavaCompile).configureEach {
 	options.encoding = "UTF-8"
 }
+
+jar {
+	manifest {
+		attributes "FMLAT": "accesstransformer.cfg"
+	}
+}
