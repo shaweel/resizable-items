@@ -8,6 +8,14 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 
 public class ConfigScreen extends GuiScreen { 
+	public ConfigScreen() {
+		super();
+	}
+
+	public ConfigScreen(GuiScreen parent) {
+		super();
+	}
+
 	public enum OptionTypes { FLOAT_SLIDER, BOOLEAN_OPTION }
 	public static final int DONE_BUTTON_PADDING = 7;
 	public static final int TITLE_PADDING = 12;

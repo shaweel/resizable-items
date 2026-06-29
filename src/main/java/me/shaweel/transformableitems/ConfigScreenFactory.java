@@ -11,18 +11,8 @@ public class ConfigScreenFactory implements IModGuiFactory {
 	public void initialize(Minecraft minecraftInstance) {}
 
 	@Override
-	public boolean hasConfigGui() {
-		return true;
-	}
-
-	@Override
-	public GuiScreen createConfigGui(GuiScreen parentScreen) {
-		return new ConfigScreen();
-	}
-
-	@Override
 	public Set<RuntimeOptionCategoryElement> runtimeGuiCategories() {
-		return null;
+		return java.util.Collections.emptySet();
 	}
 
 	@Override
