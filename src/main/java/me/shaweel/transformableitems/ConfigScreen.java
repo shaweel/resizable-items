@@ -18,7 +18,7 @@ public class ConfigScreen extends Screen {
 	public static final int TITLE_PADDING = 12;
 	public static final int RESET_BUTTON_WIDTH = 50;
 	public static final int DONE_BUTTON_WIDTH = 200;
-	public static final int WIDGET_WIDTH = 150;
+	public static final int WIDGET_WIDTH = 208;
 	public static final int WIDGET_HEIGHT = 20;
 	public static final int WIDGET_PADDING = 4;
 
