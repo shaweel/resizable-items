@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
+  <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="transformableitems"/>
+  <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="net.minecraftforge.launcher.Main"/>
+  <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Deventbus.api.strictRuntimeChecks=true -Dforge.enabledGameTestNamespaces=transformableitems"/>
+  <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="--main net.minecraftforge.userdev.LaunchTesting --cache /home/shaweel/.gradle/caches/minecraftforge/forgegradle/slime-launcher/cache/net/minecraftforge/forge/1.14.4-28.2.30 --metadata /home/shaweel/Code/transformableitems/.gradle/mavenizer/repo/net/minecraftforge/forge/1.14.4-28.2.30/forge-1.14.4-28.2.30-metadata.zip --to-srg /home/shaweel/.gradle/caches/minecraftforge/forgegradle/mavenizer/caches/mcp/de/oceanlabs/mcp/mcp_config/1.14.4-20190829.143755/data/mapings/snapshot/20200119-1.14.4/snapshot-20200119-1.14.4-obf.tsrg.gz --to-obf /home/shaweel/.gradle/caches/minecraftforge/forgegradle/mavenizer/caches/mcp/de/oceanlabs/mcp/mcp_config/1.14.4-20190829.143755/data/mapings/snapshot/20200119-1.14.4/snapshot-20200119-1.14.4-srg.tsrg.gz --"/>
+  <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="/home/shaweel/Code/transformableitems/run"/>
+  <mapAttribute key="org.eclipse.debug.core.environmentVariables">
+    <mapEntry key="MOD_CLASSES" value="/home/shaweel/Code/transformableitems/build/sourceSets/main:/home/shaweel/Code/transformableitems/build/sourceSets/test"/>
+    <mapEntry key="MCP_MAPPINGS" value="snapshot_20200119-1.14.4"/>
+    <mapEntry key="MCP_VERSION" value="20190829.143755"/>
+    <mapEntry key="FORGE_VERSION" value="28.2.30"/>
+    <mapEntry key="assetIndex" value="{asset_index}"/>
+    <mapEntry key="assetDirectory" value="{assets_root}"/>
+    <mapEntry key="nativesDirectory" value="{natives}"/>
+    <mapEntry key="FORGE_GROUP" value="net.minecraftforge"/>
+    <mapEntry key="target" value="fmluserdevclient"/>
+    <mapEntry key="MC_VERSION" value="1.14.4"/>
+  </mapAttribute>
+  <listAttribute key="org.eclipse.jdt.launching.CLASSPATH">
+    <listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&lt;runtimeClasspathEntry projectName=&quot;transformableitems&quot; type=&quot;1&quot; path=&quot;5&quot; /&gt;"/>
+    <listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&lt;runtimeClasspathEntry containerPath=&quot;org.eclipse.buildship.core.gradleclasspathcontainer&quot; javaProject=&quot;transformableitems&quot; type=&quot;4&quot; path=&quot;5&quot; /&gt;"/>
+    <listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&lt;runtimeClasspathEntry externalArchive=&quot;/home/shaweel/.gradle/caches/modules-2/files-2.1/net.minecraftforge/slime-launcher/0.2.2/c3f4d4b8306cf40d8a0a86ecdf816be088b6d6bf/slime-launcher-0.2.2.jar&quot; type=&quot;2&quot; path=&quot;5&quot; /&gt;"/>
+    <listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&lt;runtimeClasspathEntry containerPath=&quot;org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-8&quot; type=&quot;4&quot; path=&quot;5&quot; /&gt;"/>
+  </listAttribute>
+  <booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="false"/>
+</launchConfiguration>
