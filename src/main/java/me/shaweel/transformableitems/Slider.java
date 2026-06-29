@@ -35,7 +35,7 @@ public class Slider extends GuiButton {
 	}
 
 	@Override
-	public void drawButton(Minecraft screen, int mouseX, int mouseY, float partialTicks) {
+	public void drawButton(Minecraft screen, int mouseX, int mouseY) {
 		//vanilla code
 		if (!this.visible) return;
 		FontRenderer fontrenderer = screen.fontRenderer;

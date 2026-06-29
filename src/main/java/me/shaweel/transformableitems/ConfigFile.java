@@ -21,7 +21,7 @@ public class ConfigFile {
 	}
 
 	public static ConfigData configData = new ConfigData();
-	private static final Path FILE = Minecraft.getMinecraft().gameDir.toPath().resolve("config/transformableitems.json");
+	private static final Path FILE = Minecraft.getMinecraft().mcDataDir.toPath().resolve("config/transformableitems.json");
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
 	public static void save() {

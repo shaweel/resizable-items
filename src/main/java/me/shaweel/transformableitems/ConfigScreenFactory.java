@@ -8,9 +8,7 @@ import net.minecraftforge.fml.client.IModGuiFactory;
 
 public class ConfigScreenFactory implements IModGuiFactory {
 	@Override
-	public void initialize(Minecraft minecraftInstance) {
-		System.out.println("CONFIG FACTORY INITIALIZED");
-	}
+	public void initialize(Minecraft minecraftInstance) {}
 
 	@Override
 	public boolean hasConfigGui() {
@@ -24,6 +22,16 @@ public class ConfigScreenFactory implements IModGuiFactory {
 
 	@Override
 	public Set<RuntimeOptionCategoryElement> runtimeGuiCategories() {
+		return null;
+	}
+
+	@Override
+	public Class<? extends GuiScreen> mainConfigGuiClass() {
+		return ConfigScreen.class;
+	}
+
+	@Override
+	public RuntimeOptionGuiHandler getHandlerFor(RuntimeOptionCategoryElement element) {
 		return null;
 	}
 }
