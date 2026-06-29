@@ -3,9 +3,7 @@ package me.shaweel.transformableitems;
 import java.util.List;
 import java.util.Random;
 
-import javax.vecmath.Matrix4f;
-
-import org.apache.commons.lang3.tuple.Pair;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.model.BakedQuad;
@@ -14,9 +12,6 @@ import net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.model.ItemOverrideList;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.Direction;
-
-import static com.mojang.blaze3d.platform.GlStateManager.translated;
-import static com.mojang.blaze3d.platform.GlStateManager.scalef;
 
 public class TransformableItems implements IBakedModel {
 	private final IBakedModel parent;
@@ -58,14 +53,20 @@ public class TransformableItems implements IBakedModel {
 	}
 
 	@Override
-	public Pair<? extends IBakedModel, Matrix4f> handlePerspective(TransformType type) {
-		Pair<? extends IBakedModel, Matrix4f> pair = parent.handlePerspective(type);
-		if (type != TransformType.FIRST_PERSON_LEFT_HAND && type != TransformType.FIRST_PERSON_RIGHT_HAND) return pair;
+	public boolean func_230044_c_() {
+		return parent.func_230044_c_();
+	}
 
-		float x = type == TransformType.FIRST_PERSON_RIGHT_HAND ? ConfigFile.configData.xOffset * -1 : ConfigFile.configData.xOffset;
-
-		translated(x, ConfigFile.configData.yOffset, ConfigFile.configData.zOffset);
-		scalef(ConfigFile.configData.xScale, ConfigFile.configData.yScale, ConfigFile.configData.zScale);
-		return pair;
+	@Override
+	public IBakedModel handlePerspective(TransformType transformType, MatrixStack matrixStack) {
+		System.out.println(transformType);
+		if (transformType == TransformType.FIRST_PERSON_LEFT_HAND) {
+			matrixStack.translate(ConfigFile.configData.xOffset, ConfigFile.configData.yOffset, ConfigFile.configData.zOffset);
+			matrixStack.scale(ConfigFile.configData.xScale, ConfigFile.configData.yScale, ConfigFile.configData.zScale);
+		} else if (transformType == TransformType.FIRST_PERSON_RIGHT_HAND) {
+			matrixStack.translate(ConfigFile.configData.xOffset * -1, ConfigFile.configData.yOffset, ConfigFile.configData.zOffset);
+			matrixStack.scale(ConfigFile.configData.xScale, ConfigFile.configData.yScale, ConfigFile.configData.zScale);
+		}
+		return parent.handlePerspective(transformType, matrixStack);
 	}
 }
