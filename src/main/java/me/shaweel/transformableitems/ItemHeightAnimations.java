@@ -9,7 +9,7 @@ public class ItemHeightAnimations {
 	@SubscribeEvent
 	public static void clientTick(TickEvent.ClientTickEvent event) {
 		if (event.phase != TickEvent.Phase.END || ConfigFile.configData.itemHeightAnimations) return;
-		ItemRenderer itemRenderer = Minecraft.getMinecraft().getItemRenderer();
+		ItemRenderer itemRenderer = Minecraft.getMinecraft().entityRenderer.itemRenderer;
 		itemRenderer.equippedProgressMainHand = 1f;
 		itemRenderer.equippedProgressOffHand = 1f;
 		itemRenderer.prevEquippedProgressMainHand = 1f;
