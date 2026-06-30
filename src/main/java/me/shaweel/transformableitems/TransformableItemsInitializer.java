@@ -1,7 +1,7 @@
 package me.shaweel.transformableitems;
 
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 
@@ -14,8 +14,8 @@ public class TransformableItemsInitializer {
 	
 	public TransformableItemsInitializer() {
 		ConfigFile.load();
-		MinecraftForge.EVENT_BUS.register(new ModKeybinds());
-		MinecraftForge.EVENT_BUS.register(new ItemHeightAnimations());
+		FMLCommonHandler.instance().bus().register(new ModKeybinds());
+		FMLCommonHandler.instance().bus().register(new ItemHeightAnimations());
 		ModKeybinds.initialize();
 	}
 }
