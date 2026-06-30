@@ -19,8 +19,10 @@ public class CustomItemRenderer extends ItemRenderer {
 	public void renderItem(EntityLivingBase entitylivingbaseIn, ItemStack heldStack, TransformType transformType) {
 		pushMatrix();
 
-		translate(ConfigFile.configData.xOffset * -1 , ConfigFile.configData.yOffset, ConfigFile.configData.zOffset);
-		scale(ConfigFile.configData.xScale, ConfigFile.configData.yScale, ConfigFile.configData.zScale);
+		if (transformType == TransformType.FIRST_PERSON) {
+			translate(ConfigFile.configData.xOffset * -2.5f , ConfigFile.configData.yOffset * 2.5f, ConfigFile.configData.zOffset * 2.5f);
+			scale(ConfigFile.configData.xScale, ConfigFile.configData.yScale, ConfigFile.configData.zScale);
+		}
 
 		super.renderItem(entitylivingbaseIn, heldStack, transformType);
 		popMatrix();
