@@ -1,14 +1,15 @@
 package me.shaweel.transformableitems;
 
+import static org.lwjgl.opengl.GL11.glPushMatrix;
+import static org.lwjgl.opengl.GL11.glPopMatrix;
+import static org.lwjgl.opengl.GL11.glTranslatef;
+import static org.lwjgl.opengl.GL11.glScalef;
+
 import net.minecraft.client.Minecraft;
-import static  net.minecraft.client.renderer.GlStateManager.pushMatrix;
-import static  net.minecraft.client.renderer.GlStateManager.popMatrix;
-import static  net.minecraft.client.renderer.GlStateManager.translate;
-import static  net.minecraft.client.renderer.GlStateManager.scale;
 import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.IItemRenderer.ItemRenderType;
 
 public class CustomItemRenderer extends ItemRenderer {
 	public CustomItemRenderer(Minecraft client) {
@@ -16,15 +17,15 @@ public class CustomItemRenderer extends ItemRenderer {
 	}
 
 	@Override
-	public void renderItem(EntityLivingBase entitylivingbaseIn, ItemStack heldStack, TransformType transformType) {
-		pushMatrix();
+	public void renderItem(EntityLivingBase entitylivingbaseIn, ItemStack heldStack, int i, ItemRenderType itemRenderType) {
+		glPushMatrix();
 
-		if (transformType == TransformType.FIRST_PERSON) {
-			translate(ConfigFile.configData.xOffset * -2.5f , ConfigFile.configData.yOffset * 2.5f, ConfigFile.configData.zOffset * 2.5f);
-			scale(ConfigFile.configData.xScale, ConfigFile.configData.yScale, ConfigFile.configData.zScale);
+		if (itemRenderType == ItemRenderType.EQUIPPED_FIRST_PERSON) {
+			glTranslatef(ConfigFile.configData.xOffset * -2.5f , ConfigFile.configData.yOffset * 2.5f, ConfigFile.configData.zOffset * 2.5f);
+			glScalef(ConfigFile.configData.xScale, ConfigFile.configData.yScale, ConfigFile.configData.zScale);
 		}
 
-		super.renderItem(entitylivingbaseIn, heldStack, transformType);
-		popMatrix();
+		super.renderItem(entitylivingbaseIn, heldStack, i, itemRenderType);
+		glPopMatrix();
 	}
 }

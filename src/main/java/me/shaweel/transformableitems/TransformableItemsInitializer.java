@@ -1,9 +1,9 @@
 package me.shaweel.transformableitems;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 
 @Mod(modid = "transformableitems", version = "1.1", name = "Transformable Items", guiFactory = "me.shaweel.transformableitems.ConfigScreenFactory")
 public class TransformableItemsInitializer {
