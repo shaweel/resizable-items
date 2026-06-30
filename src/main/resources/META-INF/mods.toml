@@ -21,6 +21,6 @@ description="Lets you move and resize held items"
 [[dependencies.transformableitems]]
 	modId="minecraft"
 	mandatory=true
-	versionRange="[1.9,1.10]"
+	versionRange="[1.0,1.8.9]"
 	ordering="NONE"
 	side="BOTH"

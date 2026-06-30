@@ -16,18 +16,13 @@ public class CustomItemRenderer extends ItemRenderer {
 	}
 
 	@Override
-	public void renderItemSide(EntityLivingBase entitylivingbaseIn, ItemStack heldStack, TransformType transformType, boolean leftHanded) {
+	public void renderItem(EntityLivingBase entitylivingbaseIn, ItemStack heldStack, TransformType transformType) {
 		pushMatrix();
 
-		if (transformType == TransformType.FIRST_PERSON_RIGHT_HAND) {
-			translate(ConfigFile.configData.xOffset * -1 , ConfigFile.configData.yOffset, ConfigFile.configData.zOffset);
-			scale(ConfigFile.configData.xScale, ConfigFile.configData.yScale, ConfigFile.configData.zScale);
-		} else if (transformType == TransformType.FIRST_PERSON_LEFT_HAND) {
-			translate(ConfigFile.configData.xOffset , ConfigFile.configData.yOffset, ConfigFile.configData.zOffset);
-			scale(ConfigFile.configData.xScale, ConfigFile.configData.yScale, ConfigFile.configData.zScale);
-		}
+		translate(ConfigFile.configData.xOffset * -1 , ConfigFile.configData.yOffset, ConfigFile.configData.zOffset);
+		scale(ConfigFile.configData.xScale, ConfigFile.configData.yScale, ConfigFile.configData.zScale);
 
-		super.renderItemSide(entitylivingbaseIn, heldStack, transformType, leftHanded);
+		super.renderItem(entitylivingbaseIn, heldStack, transformType);
 		popMatrix();
 	}
 }

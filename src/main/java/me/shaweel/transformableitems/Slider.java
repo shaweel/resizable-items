@@ -6,7 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.MathHelper;
 import net.minecraftforge.fml.client.config.GuiUtils;
 
 public class Slider extends GuiButton {
@@ -38,13 +38,13 @@ public class Slider extends GuiButton {
 	public void drawButton(Minecraft client, int mouseX, int mouseY) {
 		//vanilla code
 		FontRenderer fontrenderer = client.fontRendererObj;
-		client.getTextureManager().bindTexture(BUTTON_TEXTURES);
+		client.getTextureManager().bindTexture(buttonTextures);
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
 		int i = this.getHoverState(this.hovered);
 		GlStateManager.enableBlend();
-		GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+		GlStateManager.blendFunc(770, 771);
 		this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, 46 + i * 20, this.width / 2, this.height);
 		this.drawTexturedModalRect(this.xPosition + this.width / 2, this.yPosition, 200 - this.width / 2, 46 + i * 20, this.width / 2, this.height);
 		this.mouseDragged(client, mouseX, mouseY);
@@ -56,7 +56,7 @@ public class Slider extends GuiButton {
 
 		//my code
 		GuiUtils.drawContinuousTexturedBox(
-			BUTTON_TEXTURES, 
+			buttonTextures, 
 			this.xPosition + (int)(value * (float)(this.width - 8)), 
 			this.yPosition, 
 			0, 66, SLIDER_THUMB_WIDTH, this.height, 

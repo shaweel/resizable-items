@@ -10,12 +10,9 @@ public class ItemHeightAnimations {
 	public void clientTick(TickEvent.ClientTickEvent event) {
 		if (event.phase != TickEvent.Phase.END || ConfigFile.configData.itemHeightAnimations) return;
 		ItemRenderer itemRenderer = Minecraft.getMinecraft().entityRenderer.itemRenderer;
-		itemRenderer.equippedProgressMainHand = 1f;
-		itemRenderer.equippedProgressOffHand = 1f;
-		itemRenderer.prevEquippedProgressMainHand = 1f;
-		itemRenderer.prevEquippedProgressOffHand = 1f;
+		itemRenderer.equippedProgress = 1f;
+		itemRenderer.prevEquippedProgress = 1f;
 		if (Minecraft.getMinecraft().thePlayer == null) return;
-		itemRenderer.itemStackMainHand = Minecraft.getMinecraft().thePlayer.getHeldItemMainhand();
-		itemRenderer.itemStackOffHand = Minecraft.getMinecraft().thePlayer.getHeldItemOffhand();
+		itemRenderer.itemToRender = Minecraft.getMinecraft().thePlayer.getHeldItem();
 	}
 }
