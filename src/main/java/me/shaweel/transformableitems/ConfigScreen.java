@@ -36,7 +36,7 @@ public class ConfigScreen extends GuiScreen {
 	private int currentId = 0;
 
 	private int row(int index, int rowAmount) {
-		int headerSpace = TITLE_PADDING + this.fontRenderer.FONT_HEIGHT;
+		int headerSpace = TITLE_PADDING + this.fontRendererObj.FONT_HEIGHT;
 		int footerSpace = DONE_BUTTON_PADDING + WIDGET_HEIGHT;
 
 		int allWidgetsHeight = rowAmount * WIDGET_HEIGHT + (rowAmount - 1) * WIDGET_PADDING;
@@ -64,7 +64,7 @@ public class ConfigScreen extends GuiScreen {
 	}
 
 	private void createButton(int x, int y, int w, int h, String name, Runnable action) {
-		this.addButton(new GuiButton(this.currentId, x, y, w, h, name) {
+		this.buttonList.add(new GuiButton(this.currentId, x, y, w, h, name) {
 			@Override
 			public boolean mousePressed(Minecraft client, int mouseX, int mouseY) {
 				if (!super.mousePressed(client, mouseX, mouseY)) return false;
@@ -76,13 +76,14 @@ public class ConfigScreen extends GuiScreen {
 	}
 
 	private void createSlider(int x, int y, int w, int h, String name, float min, float max, Supplier<Float> getter, Consumer<Float> setter, Float defaultValue) {
-		Slider slider = this.addButton(new Slider(this.currentId, x, y, w, h, name, normalize(min, max, getter.get()), value -> {
+		Slider slider = new Slider(this.currentId, x, y, w, h, name, normalize(min, max, getter.get()), value -> {
 			float denormalized = Math.round(denormalize(min, max, value) * 100f) / 100f;
 			
 			setter.accept(denormalized);
 			ConfigFile.save();
 			return String.format("%.2f", denormalized);
-		}));
+		});
+		this.buttonList.add(slider);
 		this.currentId++;
 
 		createButton(x + w + WIDGET_PADDING, y, RESET_BUTTON_WIDTH, h, "Reset", () -> {
@@ -95,7 +96,7 @@ public class ConfigScreen extends GuiScreen {
 	}
 
 	private void createBooleanOption(int x, int y, int w, int h, String name, Supplier<Boolean> getter, Consumer<Boolean> setter, Boolean defaultValue) {
-		GuiButton booleanOption = this.addButton(new GuiButton(this.currentId, x, y, w, h, getBooleanText(name, getter.get())) {
+		GuiButton booleanOption = new GuiButton(this.currentId, x, y, w, h, getBooleanText(name, getter.get())) {
 			@Override
 			public boolean mousePressed(Minecraft client, int mouseX, int mouseY) {
 				if (!super.mousePressed(client, mouseX, mouseY)) return false;
@@ -108,7 +109,8 @@ public class ConfigScreen extends GuiScreen {
 				ConfigFile.save();
 				return true;
 			}
-		});
+		};
+		this.buttonList.add(booleanOption);
 		this.currentId++;
 
 		createButton(x + w + WIDGET_PADDING, y, RESET_BUTTON_WIDTH, h, "Reset", () -> {
@@ -119,7 +121,7 @@ public class ConfigScreen extends GuiScreen {
 	}
 
 	private void createText(int x, int y, String text) {
-		drawString(this.fontRenderer, text, x, y, 0xFFFFFF);
+		drawString(this.fontRendererObj, text, x, y, 0xFFFFFF);
 	}
 
 	@Override
@@ -159,7 +161,7 @@ public class ConfigScreen extends GuiScreen {
 	public void drawScreen(int mouseX, int mouseY, float partialTick) {
 		this.drawDefaultBackground();
 
-		createText(x(this.fontRenderer.getStringWidth("Transformable Items Configuration")), TITLE_PADDING, "Transformable Items Configuration");
+		createText(x(this.fontRendererObj.getStringWidth("Transformable Items Configuration")), TITLE_PADDING, "Transformable Items Configuration");
 
 		super.drawScreen(mouseX, mouseY, partialTick);
 	}

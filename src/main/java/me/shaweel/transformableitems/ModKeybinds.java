@@ -15,7 +15,7 @@ public class ModKeybinds {
 	}
 	
 	@SubscribeEvent
-	public static void clientTick(TickEvent.ClientTickEvent event) {
+	public void clientTick(TickEvent.ClientTickEvent event) {
 		Minecraft client = Minecraft.getMinecraft();
 		if (event.phase != TickEvent.Phase.END || OPEN_CONFIG_KEYBIND == null || !OPEN_CONFIG_KEYBIND.isPressed() || client.currentScreen != null) return;
 		client.displayGuiScreen(new ConfigScreen());
