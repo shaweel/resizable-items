@@ -1,10 +1,9 @@
 package me.shaweel.transformableitems;
 
-import java.util.function.Function;
-
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.config.GuiUtils;
+import me.shaweel.transformableitems.functionalinterfaces.Function;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -51,6 +50,10 @@ public class Slider extends GuiButton {
 		this.drawTexturedModalRect(this.xPosition + this.width / 2, this.yPosition, 200 - this.width / 2, 46 + k * 20, this.width / 2, this.height);
 		this.mouseDragged(client, mouseX, mouseY);
 		int l = 14737632;
+
+		if (packedFGColour != 0) { l = packedFGColour; }
+		else if (!this.enabled) { l = 10526880; }
+		else if (this.field_146123_n) { l = 16777120; }
 
 		//my code
 		GuiUtils.drawContinuousTexturedBox(

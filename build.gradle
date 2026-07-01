@@ -9,7 +9,11 @@ plugins {
 version = mod_version
 group = "me.shaweel.transformableitems"
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(8)
+java.toolchain.languageVersion = JavaLanguageVersion.of(6)
+
+java {
+	disableAutoTargetJvm()
+}
 
 renamer.classes(tasks.named('jar', Jar)) {
 	archiveClassifier = 'srg'
@@ -18,8 +22,6 @@ renamer.classes(tasks.named('jar', Jar)) {
 sourceSets.main.resources { srcDir "src/generated/resources" }
 
 minecraft {
-	accessTransformer = true
-
 	runs {
 		configureEach {
 			workingDir = layout.projectDirectory.dir("run")
@@ -49,10 +51,4 @@ renamer.mappings(minecraft.dependency.toSrg)
 
 tasks.withType(JavaCompile).configureEach {
 	options.encoding = "UTF-8"
-}
-
-jar {
-	manifest {
-		attributes "FMLAT": "accesstransformer.cfg"
-	}
 }

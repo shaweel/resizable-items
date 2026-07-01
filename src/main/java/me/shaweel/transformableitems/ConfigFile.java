@@ -1,12 +1,17 @@
 package me.shaweel.transformableitems;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import me.shaweel.transformableitems.ConfigFile.ConfigData;
 import net.minecraft.client.Minecraft;
 
 public class ConfigFile {
@@ -21,12 +26,17 @@ public class ConfigFile {
 	}
 
 	public static ConfigData configData = new ConfigData();
-	private static final Path FILE = Minecraft.getMinecraft().mcDataDir.toPath().resolve("config/transformableitems.json");
+	private static final File FILE = new File(Minecraft.getMinecraft().mcDataDir, "config/transformableitems.json");
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
 	public static void save() {
 		try {
-			Files.write(FILE, GSON.toJson(configData).replace("  ", "\t").getBytes("UTF-8"));
+			FILE.getParentFile().mkdirs();
+
+			Writer writer = new OutputStreamWriter(new FileOutputStream(FILE), "UTF-8");
+
+			writer.write(GSON.toJson(configData).replace("  ", "\t"));
+			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -34,8 +44,15 @@ public class ConfigFile {
 
 	public static void load() {
 		try {
-			if (!Files.exists(FILE)) return;
-			configData = GSON.fromJson(new String(Files.readAllBytes(FILE), "UTF-8"), ConfigData.class);
+			if (!FILE.exists()) return;
+
+			InputStream inputStream = new FileInputStream(FILE);
+			byte[] data = new byte[(int) FILE.length()];
+
+			inputStream.read(data);
+			inputStream.close();
+
+			configData = GSON.fromJson(new String(data, "UTF-8"), ConfigData.class);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

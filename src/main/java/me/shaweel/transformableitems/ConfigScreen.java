@@ -1,8 +1,8 @@
 package me.shaweel.transformableitems;
 
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-
+import me.shaweel.transformableitems.functionalinterfaces.Function;
+import me.shaweel.transformableitems.functionalinterfaces.Supplier;
+import me.shaweel.transformableitems.functionalinterfaces.Consumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -63,7 +63,7 @@ public class ConfigScreen extends GuiScreen {
 		return (x - min) / (max - min);
 	}
 
-	private void createButton(int x, int y, int w, int h, String name, Runnable action) {
+	private void createButton(final int x, final int y, final int w, final int h, final String name, final Runnable action) {
 		this.buttonList.add(new GuiButton(this.currentId, x, y, w, h, name) {
 			@Override
 			public boolean mousePressed(Minecraft client, int mouseX, int mouseY) {
@@ -75,28 +75,41 @@ public class ConfigScreen extends GuiScreen {
 		this.currentId++;
 	}
 
-	private void createSlider(int x, int y, int w, int h, String name, float min, float max, Supplier<Float> getter, Consumer<Float> setter, Float defaultValue) {
-		Slider slider = new Slider(this.currentId, x, y, w, h, name, normalize(min, max, getter.get()), value -> {
-			float denormalized = Math.round(denormalize(min, max, value) * 100f) / 100f;
+	private void createSlider(final int x, final int y, final int w, final int h, final String name, final float min, final float max, 
+					final Supplier<Float> getter, final Consumer<Float> setter, final Float defaultValue) {
+		final Slider slider = new Slider(this.currentId, x, y, w, h, name, normalize(min, max, getter.get()), new Function<Float,String>() {
+			public String apply(Float value) {
+				float denormalized = Math.round(denormalize(min, max, value) * 100f) / 100f;
 			
-			setter.accept(denormalized);
-			ConfigFile.save();
-			return String.format("%.2f", denormalized);
+				setter.accept(denormalized);
+				ConfigFile.save();
+				return String.format("%.2f", denormalized);
+			}
 		});
 		this.buttonList.add(slider);
 		this.currentId++;
 
-		createButton(x + w + WIDGET_PADDING, y, RESET_BUTTON_WIDTH, h, "Reset", () -> {
-			slider.changeValue(normalize(min, max, defaultValue));
-		});
+		createButton(
+			x + w + WIDGET_PADDING, 
+			y, 
+			RESET_BUTTON_WIDTH, 
+			h, 
+			"Reset", 
+			new Runnable() {
+				public void run() {
+					slider.changeValue(normalize(min, max, defaultValue));
+				}	
+			}
+		);
 	}
 
-	private String getBooleanText(String name, boolean value) {
+	private String getBooleanText(final String name, final boolean value) {
 		return String.format("%s: %s", name, value ? "ON" : "OFF");
 	}
 
-	private void createBooleanOption(int x, int y, int w, int h, String name, Supplier<Boolean> getter, Consumer<Boolean> setter, Boolean defaultValue) {
-		GuiButton booleanOption = new GuiButton(this.currentId, x, y, w, h, getBooleanText(name, getter.get())) {
+	private void createBooleanOption(final int x, final int y, final int w, final int h, final String name, 
+						final Supplier<Boolean> getter, final Consumer<Boolean> setter, final Boolean defaultValue) {
+		final GuiButton booleanOption = new GuiButton(this.currentId, x, y, w, h, getBooleanText(name, getter.get())) {
 			@Override
 			public boolean mousePressed(Minecraft client, int mouseX, int mouseY) {
 				if (!super.mousePressed(client, mouseX, mouseY)) return false;
@@ -113,14 +126,23 @@ public class ConfigScreen extends GuiScreen {
 		this.buttonList.add(booleanOption);
 		this.currentId++;
 
-		createButton(x + w + WIDGET_PADDING, y, RESET_BUTTON_WIDTH, h, "Reset", () -> {
-			setter.accept(defaultValue);
-			ConfigFile.save();
-			booleanOption.displayString = getBooleanText(name, defaultValue);
-		});
+		createButton(
+			x + w + WIDGET_PADDING, 
+			y, 
+			RESET_BUTTON_WIDTH, 
+			h, 
+			"Reset", 
+			new Runnable() {
+				public void run() {
+					setter.accept(defaultValue);
+					ConfigFile.save();
+					booleanOption.displayString = getBooleanText(name, defaultValue);
+				}	
+			}
+		);
 	}
 
-	private void createText(int x, int y, String text) {
+	private void createText(final int x, final int y, final String text) {
 		drawString(this.fontRendererObj, text, x, y, 0xFFFFFF);
 	}
 
@@ -130,31 +152,166 @@ public class ConfigScreen extends GuiScreen {
 
 		this.currentId = 0;
 
-		createSlider(x(), row(0, 7), WIDGET_WIDTH, WIDGET_HEIGHT, "X Scale", MIN_SCALE, MAX_SCALE, 
-		() -> ConfigFile.configData.xScale, value -> ConfigFile.configData.xScale = value, DEFAULT_SCALE);
+		createSlider(
+			x(), 
+			row(0, 7), 
+			WIDGET_WIDTH, 
+			WIDGET_HEIGHT, 
+			"X Scale", 
+			MIN_SCALE, 
+			MAX_SCALE, 
+			new Supplier<Float>() {
+				public Float get() {
+					return ConfigFile.configData.xScale;
+				}
+			}, 
+			new Consumer<Float>() {
+				public void accept(Float value) {
+					ConfigFile.configData.xScale = value;
+				}
+			}, 
+			DEFAULT_SCALE
+		);
 
-		createSlider(x(), row(1, 7), WIDGET_WIDTH, WIDGET_HEIGHT, "Y Scale", MIN_SCALE, MAX_SCALE, 
-		() -> ConfigFile.configData.yScale, value -> ConfigFile.configData.yScale = value, DEFAULT_SCALE);
+		createSlider(
+			x(), 
+			row(1, 7), 
+			WIDGET_WIDTH, 
+			WIDGET_HEIGHT, 
+			"Y Scale", 
+			MIN_SCALE, 
+			MAX_SCALE, 
+			new Supplier<Float>() {
+				public Float get() {
+					return ConfigFile.configData.yScale;
+				}
+			}, 
+			new Consumer<Float>() {
+				public void accept(Float value) {
+					ConfigFile.configData.yScale = value;
+				}
+			}, 
+			DEFAULT_SCALE
+		);
 
-		createSlider(x(), row(2, 7), WIDGET_WIDTH, WIDGET_HEIGHT, "Z Scale", MIN_SCALE, MAX_SCALE, 
-		() -> ConfigFile.configData.zScale, value -> ConfigFile.configData.zScale = value, DEFAULT_SCALE);
+		createSlider(
+			x(), 
+			row(2, 7), 
+			WIDGET_WIDTH, 
+			WIDGET_HEIGHT, 
+			"Z Scale", 
+			MIN_SCALE, 
+			MAX_SCALE, 
+			new Supplier<Float>() {
+				public Float get() {
+					return ConfigFile.configData.zScale;
+				}
+			}, 
+			new Consumer<Float>() {
+				public void accept(Float value) {
+					ConfigFile.configData.zScale = value;
+				}
+			}, 
+			DEFAULT_SCALE
+		);
 
 
-		createSlider(x(), row(3, 7), WIDGET_WIDTH, WIDGET_HEIGHT, "X Offset", MIN_OFFSET, MAX_OFFSET,
-		() -> ConfigFile.configData.xOffset, value -> ConfigFile.configData.xOffset = value, DEFAULT_OFFSET);
+		createSlider(
+			x(), 
+			row(3, 7), 
+			WIDGET_WIDTH, 
+			WIDGET_HEIGHT, 
+			"X Offset", 
+			MIN_OFFSET, 
+			MAX_OFFSET, 
+			new Supplier<Float>() {
+				public Float get() {
+					return ConfigFile.configData.xOffset;
+				}
+			}, 
+			new Consumer<Float>() {
+				public void accept(Float value) {
+					ConfigFile.configData.xOffset = value;
+				}
+			}, 
+			DEFAULT_OFFSET
+		);
 
-		createSlider(x(), row(4, 7), WIDGET_WIDTH, WIDGET_HEIGHT, "Y Offset", MIN_OFFSET, MAX_OFFSET,
-		() -> ConfigFile.configData.yOffset, value -> ConfigFile.configData.yOffset = value, DEFAULT_OFFSET);
+		createSlider(
+			x(), 
+			row(4, 7), 
+			WIDGET_WIDTH, 
+			WIDGET_HEIGHT, 
+			"Y Offset", 
+			MIN_OFFSET, 
+			MAX_OFFSET, 
+			new Supplier<Float>() {
+				public Float get() {
+					return ConfigFile.configData.yOffset;
+				}
+			}, 
+			new Consumer<Float>() {
+				public void accept(Float value) {
+					ConfigFile.configData.yOffset = value;
+				}
+			}, 
+			DEFAULT_OFFSET
+		);
 
-		createSlider(x(), row(5, 7), WIDGET_WIDTH, WIDGET_HEIGHT, "Z Offset", MIN_OFFSET, MAX_OFFSET,
-		() -> ConfigFile.configData.zOffset, value -> ConfigFile.configData.zOffset = value, DEFAULT_OFFSET);
+		createSlider(
+			x(), 
+			row(5, 7), 
+			WIDGET_WIDTH, 
+			WIDGET_HEIGHT, 
+			"Z Offset", 
+			MIN_OFFSET, 
+			MAX_OFFSET, 
+			new Supplier<Float>() {
+				public Float get() {
+					return ConfigFile.configData.zOffset;
+				}
+			}, 
+			new Consumer<Float>() {
+				public void accept(Float value) {
+					ConfigFile.configData.zOffset = value;
+				}
+			}, 
+			DEFAULT_OFFSET
+		);
 
+		createBooleanOption(
+			x(),
+			row(6, 7),
+			WIDGET_WIDTH,
+			WIDGET_HEIGHT,
+			"Item Height Animations",
+			new Supplier<Boolean>() {
+				public Boolean get() {
+					return ConfigFile.configData.itemHeightAnimations;
+				}
+			},
+			new Consumer<Boolean>() {
+				public void accept(Boolean value) {
+					ConfigFile.configData.itemHeightAnimations = value;
+				}
+			},
+			true
+		);
 
-		createBooleanOption(x(), row(6, 7), WIDGET_WIDTH, WIDGET_HEIGHT, "Item Height Animations",
-		() -> ConfigFile.configData.itemHeightAnimations, value -> ConfigFile.configData.itemHeightAnimations = value, true);
+		final ConfigScreen self = this;
 
-		createButton(x(DONE_BUTTON_WIDTH), this.height - DONE_BUTTON_PADDING - WIDGET_HEIGHT, DONE_BUTTON_WIDTH, WIDGET_HEIGHT, "Done", 
-		() -> this.mc.displayGuiScreen(null));
+		createButton(
+			x(DONE_BUTTON_WIDTH), 
+			this.height - DONE_BUTTON_PADDING - WIDGET_HEIGHT, 
+			DONE_BUTTON_WIDTH, 
+			WIDGET_HEIGHT, 
+			"Done",
+			new Runnable() {
+				public void run() {
+					self.mc.displayGuiScreen(null);
+				}
+			}
+		);
 	}
 
 	@Override
