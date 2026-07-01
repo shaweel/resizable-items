@@ -20,8 +20,6 @@ sourceSets.main.resources { srcDir "src/generated/resources" }
 minecraft {
 	accessTransformer = true
 
-	mappings channel: "snapshot", version: "${project.mcp_version}"
-
 	runs {
 		configureEach {
 			workingDir = layout.projectDirectory.dir("run")
@@ -30,7 +28,9 @@ minecraft {
 			systemProperty "forge.enabledGameTestNamespaces", "transformableitems"
 		}
 
-		register("client") {}
+		register("client") {
+			jvmArgs "-Dfml.ignoreInvalidMinecraftCertificates=true"
+		}
 	}
 }
 

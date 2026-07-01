@@ -39,11 +39,11 @@ public class Slider extends GuiButton {
 	@Override
 	public void drawButton(Minecraft client, int mouseX, int mouseY) {
 		//vanilla code
-		FontRenderer fontrenderer = client.fontRendererObj;
+		FontRenderer fontrenderer = client.fontRenderer;
 		client.getTextureManager().bindTexture(buttonTextures);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
-		int k = this.getHoverState(this.hovered);
+		this.field_146123_n = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+		int k = this.getHoverState(this.field_146123_n);
 		GL11.glEnable(GL11.GL_BLEND);
 		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -51,10 +51,6 @@ public class Slider extends GuiButton {
 		this.drawTexturedModalRect(this.xPosition + this.width / 2, this.yPosition, 200 - this.width / 2, 46 + k * 20, this.width / 2, this.height);
 		this.mouseDragged(client, mouseX, mouseY);
 		int l = 14737632;
-
-		if (packedFGColour != 0) { l = packedFGColour; }
-		else if (!this.enabled) { l = 10526880; }
-		else if (this.hovered) { l = 16777120; }
 
 		//my code
 		GuiUtils.drawContinuousTexturedBox(
